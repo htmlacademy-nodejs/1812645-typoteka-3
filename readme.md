@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [lmarch](https://up.htmlacademy.ru/nodejs/3/user/1812645).
-* Наставник: `Неизвестно`.
+* Наставник: `Дмитрий Мирошниченко`.
 
 ---
 
