@@ -1,15 +1,13 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
-* Студент: [lmarch](https://up.htmlacademy.ru/nodejs/3/user/1812645).
-* Наставник: `Неизвестно`.
-
+* Студент:  [Марченкова Любовь](https://up.htmlacademy.ru/nodejs/3/user/1812645).
+* Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417)
 ---
 
 _Не удаляйте и не изменяйте директории и файлы:_
 _`.editorconfig`, `.gitattributes`, `.gitignore`, `.travis.yml`, `package.json`._
 
 ---
-
 ### Памятка
 
 #### 1. Зарегистрируйтесь на Гитхабе
