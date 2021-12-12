@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
-* Студент: :rocket: [lmarch](https://up.htmlacademy.ru/nodejs/3/user/1812645).
-* Наставник: :sparkles: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417) :sparkles:
+* Студент:  [Марченкова Любовь](https://up.htmlacademy.ru/nodejs/3/user/1812645).
+* Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417)
 ---
 
 _Не удаляйте и не изменяйте директории и файлы:_
