@@ -8,7 +8,7 @@ module.exports = {
   name: `--version`,
   run() {
     const version = packageJsonFile.version;
-    console.log(chalk.green(`\n\tВерсия программы: ${version}\n`));
+    console.info(chalk.blue(`\n\tВерсия программы: ${version}\n`));
 
     return ExitCode.success;
   }
