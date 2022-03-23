@@ -15,7 +15,7 @@ arrayOfUserCommand.forEach((userCommand) => {
   const value = userCommand[command];
 
   const result = Cli[command].run(value);
-  if (result) {
+  if (result !== ExitCode.success) {
     process.exit(ExitCode.error);
   }
 });

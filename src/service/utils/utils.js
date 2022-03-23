@@ -45,19 +45,14 @@ const writeFile = (fileName, content) => {
     fs.writeFileSync(fileName, content);
     console.log(chalk.green(`\tOperation success. File created.`));
     return ExitCode.success;
-  } catch (err) {
+  } catch (error) {
     console.error(chalk.red(`\tCan't write data to file...`));
-    return ExitCode.error;
+    return error;
   }
 };
 
 const conversionToString = (arr) => {
-  let str = ``;
-  arr.forEach((obj) => {
-    str += JSON.stringify(obj);
-  });
-
-  return str;
+  return JSON.stringify(arr);
 };
 
 const printOffers = (arr) => {
