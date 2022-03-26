@@ -10,11 +10,11 @@ if (arrayOfUserCommand.length === 0) {
   arrayOfUserCommand = [{[DEFAULT_COMMAND]: null}];
 }
 
-arrayOfUserCommand.forEach((userCommand) => {
+arrayOfUserCommand.forEach(async (userCommand) => {
   const command = Object.keys(userCommand)[0];
   const value = userCommand[command];
 
-  const result = Cli[command].run(value);
+  const result = await Cli[command].run(value);
   if (result !== ExitCode.success) {
     process.exit(ExitCode.error);
   }
