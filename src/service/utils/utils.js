@@ -1,7 +1,7 @@
 'use strict';
 
 const chalk = require(`chalk`);
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
 const {ExitCode} = require(`../const/constants`);
 
 const getArrayOfArgv = (argv) => {
@@ -40,9 +40,21 @@ const getRandomDate = (rangeOfDays) => {
   return today;
 };
 
-const writeFile = (fileName, content) => {
+const readFile = async (filePath) => {
   try {
-    fs.writeFileSync(fileName, content);
+    console.log(`readFile`);
+    const content = await fs.readFile(filePath, `utf-8`).catch(console.error);
+    console.log(`readFile +`);
+    return content.trim().split(`n`);
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+const writeFile = async (filePath, content) => {
+  try {
+    await fs.writeFile(filePath, content);
     console.log(chalk.green(`\tOperation success. File created.`));
     return ExitCode.success;
   } catch (error) {
@@ -71,5 +83,6 @@ module.exports = {
   getRandomDate,
   conversionToString,
   printOffers,
+  readFile,
   writeFile,
 };
