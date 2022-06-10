@@ -5,6 +5,9 @@ const {
   RANGE_OF_DAYS,
   MAX_NUMBER_OF_ELEMENTS,
   MOCK_FILE_NAME,
+  FILE_TITLES_PATH,
+  FILE_CATEGORIES_PATH,
+  FILE_ANNOUNCES_PATH,
   DEFAULT_COUNT,
   ExitCode
 } = require(`../const/constants`);
@@ -13,15 +16,10 @@ const {
   getRandomInt,
   getRandomDate,
   shufflingArray,
-  printOffers,
   conversionToString,
   readFile,
   writeFile,
 } = require(`../utils/utils`);
-
-const FILE_TITLES_PATH = `../../../data/titles.txt`;
-const FILE_CATEGORIES_PATH = `../../../data/announces.txt`;
-const FILE_ANNOUNCES_PATH = `../../../data/sentences.txt`;
 
 const generateOffers = (count, titles, categories, announces) => (
   Array(count).fill({}).map(() => ({
@@ -36,6 +34,7 @@ const generateOffers = (count, titles, categories, announces) => (
 module.exports = {
   name: `--generate`,
   async run(count) {
+
     if (count > MAX_NUMBER_OF_ELEMENTS) {
       console.log(chalk.red(`\n\tНе больше 1000 публикаций`));
       return ExitCode.error;
@@ -43,13 +42,25 @@ module.exports = {
 
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
-    const titles = await readFile(FILE_TITLES_PATH);
-    const categories = await readFile(FILE_CATEGORIES_PATH);
-    const announces = await readFile(FILE_ANNOUNCES_PATH);
+    const fileReadingResults = await Promise.all([
+      readFile(FILE_TITLES_PATH),
+      readFile(FILE_CATEGORIES_PATH),
+      readFile(FILE_ANNOUNCES_PATH)
+    ]);
 
+    const fileReadingError = fileReadingResults.find((result) => {
+      if (result instanceof Error) {
+        return ExitCode.error;
+      }
+      return ExitCode.success;
+    });
+    if (fileReadingError) {
+      return ExitCode.error;
+    }
+
+    const [titles, categories, announces] = fileReadingResults;
     const offers = generateOffers(countOffer, titles, categories, announces);
-    printOffers(offers);
 
-    return await writeFile(MOCK_FILE_NAME, conversionToString(offers));
+    return writeFile(MOCK_FILE_NAME, conversionToString(offers));
   }
 };
