@@ -42,23 +42,22 @@ const getRandomDate = (rangeOfDays) => {
 
 const readFile = async (filePath) => {
   try {
-    console.log(`readFile`);
-    const content = await fs.readFile(filePath, `utf-8`).catch(console.error);
-    console.log(`readFile +`);
+    const content = await fs.readFile(filePath, `utf-8`);
+    console.log(chalk.green(`\t Read file ${filePath}`));
     return content.trim().split(`n`);
   } catch (error) {
-    console.error(error);
+    console.error(chalk.red(`\t Can't read file ${filePath}`));
     return error;
   }
-}
+};
 
 const writeFile = async (filePath, content) => {
   try {
     await fs.writeFile(filePath, content);
-    console.log(chalk.green(`\tOperation success. File created.`));
+    console.log(chalk.green(`\n\t Operation success. File created.`));
     return ExitCode.success;
   } catch (error) {
-    console.error(chalk.red(`\tCan't write data to file...`));
+    console.error(chalk.red(`\n\t Can't write data to file...`));
     return error;
   }
 };
