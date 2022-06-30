@@ -2,27 +2,16 @@
 
 const http = require(`http`);
 const chalk = require(`chalk`);
+const {readFile} = require(`../utils/utils`);
 
 const {
+  MOCK_FILE_NAME,
   ExitCode,
   DEFAULT_PORT,
-  HTTP_SUCCESS_CODE,
-  HTTP_NOT_FOUND_CODE,
+  HttpCode,
+  INTERNAL_SERVER_ERROR,
+  PAGE_NOT_FOUND,
 } = require(`../const/constants`);
-
-const getResponseText = (userAgent) => (
-  `<!DOCTYPE html>
-    <html lang="ru">
-    <head>
-      <title>From Node with love!</title>
-      <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-      <h1>Привет!</h1>
-      <p>Ты используешь: ${userAgent}.</p>
-    </body>
-  </html>`
-);
 
 const styles = `
 h1 {
@@ -35,30 +24,48 @@ p {
   font-size: 16px;
 }`;
 
-const onClientConnect = (req, res) => {
+const sendResponse = (res, statusCode, message) => {
+  const template = `
+   <!DOCTYPE html>
+   <html lang="ru">
+    <head>
+      <title>From Node with love!</title>
+      <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+      <h1>Анонс предложений!</h1>
+      <ul>${message}</ul>
+    </body>
+    </html>`.trim();
+
+  res.writeHead(statusCode, {
+    'Content-Type': `text/html; charset=UTF-8`,
+  });
+  res.end(template);
+};
+
+const onClientConnect = async (req, res) => {
   switch (req.url) {
     case `/style.css`:
-      res.writeHead(HTTP_SUCCESS_CODE, {
+      res.writeHead(HttpCode.OK, {
         'Content-Type': `text/css; charset=UTF-8`,
       });
       res.end(styles);
       break;
 
     case `/`:
-      const userAgent = req.headers[`user-agent`];
-      const responseText = getResponseText(userAgent);
-
-      res.writeHead(HTTP_SUCCESS_CODE, {
-        'Content-Type': `text/html; charset=UTF-8`,
-      });
-      res.end(responseText);
+      try {
+        const fileContent = await readFile(MOCK_FILE_NAME);
+        const mosk = JSON.parse(fileContent);
+        const message = mosk.map((post) => `<li>${post.title}</li>`).join(``);
+        sendResponse(res, HttpCode.OK, message);
+      } catch (error) {
+        sendResponse(res, HttpCode.INTERNAL_SERVER_ERROR, `${INTERNAL_SERVER_ERROR}`);
+      }
       break;
 
     default:
-      res.writeHead(HTTP_NOT_FOUND_CODE, {
-        'Content-Type': `text/plain; charset=UTF-8`,
-      });
-      res.end(`Упс, ничего не найдено :(`);
+      sendResponse(res, HttpCode.NOT_FOUND, `${PAGE_NOT_FOUND}`);
   }
 };
 
