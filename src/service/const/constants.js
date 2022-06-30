@@ -16,3 +16,6 @@ module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
 module.exports.DEFAULT_COMMAND = `--help`;
 module.exports.USER_ARGV_INDEX = 2;
 
+module.exports.DEFAULT_PORT = 8000;
+module.exports.HTTP_SUCCESS_CODE = 200;
+module.exports.HTTP_NOT_FOUND_CODE = 404;
