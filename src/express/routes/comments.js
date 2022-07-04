@@ -6,17 +6,17 @@ const myCommentsRouter = new Router();
 
 // мои публикации
 myCommentsRouter.get(`/`, (req, res) =>
-  res.send(`Мои публикации: /my`)
+  res.render(`my`)
 );
 
 // комментарии к публикациям
 myCommentsRouter.get(`/comments`, (req, res) =>
-  res.send(`Комментарии к публикациям: /my/comments`)
+  res.render(`comments`)
 );
 
 // категории
 myCommentsRouter.get(`/categories`, (req, res) =>
-  res.send(`Категории: /my/categories`)
+  res.render(`all-categories`)
 );
 
 module.exports = myCommentsRouter;

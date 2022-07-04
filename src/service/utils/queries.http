@@ -39,26 +39,26 @@ GET http://localhost:8080/register
 ### Логин
 GET http://localhost:8080/login
 
-### мои публикации
-GET http://localhost:8080/my
-
-### комментарии к публикациям
-GET http://localhost:8080/my/comments
-
-### публикации определённой категории
-GET http://localhost:8080/articles/category/8
-
-### страница создания новой публикации
-POST http://localhost:8080/articles/add
-
 ### поиск
 GET http://localhost:8080/search
 
-### редактирование публикации
-PATCH http://localhost:8080/articles/edit/4
+### мои публикации
+GET http://localhost:8080/my
+
+### Комментарии к публикациям
+GET http://localhost:8080/my/comments
+
+### Категории
+GET http://localhost:8080/my/categories
 
 ### страница публикации
 GET http://localhost:8080/articles/5
 
-### Категории
-GET http://localhost:8080/my/categories
+### публикации в определённой категории
+GET http://localhost:8080/articles/category/8
+
+### страница создания новой публикации
+GET http://localhost:8080/articles/add
+
+### редактирование публикации
+GET http://localhost:8080/articles/edit/4

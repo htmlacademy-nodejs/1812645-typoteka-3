@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "express": "4.18.1",
+    "pag": "^1.0.1",
     "pug": "3.0.2"
   }
 }
