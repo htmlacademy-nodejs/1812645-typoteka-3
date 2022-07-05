@@ -1,34 +1,7 @@
-HEAD /posts HTTP/1.1
-Host: jsonplaceholder.typicode.com
+### Проверка REST сервера
+GET http://localhost:3000/posts
 
-###
-
-GET /posts HTTP/1.1
-Host: jsonplaceholder.typicode.com
-
-###
-
-POST /posts HTTP/1.1
-Host: jsonplaceholder.typicode.com
-Content-Type: application/json
-
-{
-  "title": "Новая публикация",
-  "body": "Текст публикации",
-  "userId": 31337
-}
-
-### Получить все комментарии к публикациям
-
-GET https://jsonplaceholder.typicode.com/comments HTTP/1.1
-Content-Type: application/json
-
-###
-
-GET https://jsonplaceholder.typicode.com/comments?postId=1 HTTP/1.1
-Content-Type: application/json
-
-### проверка Роутера
+### Проверка Роутера Шаблонизатора
 
 ### главная страница
 GET http://localhost:8080
