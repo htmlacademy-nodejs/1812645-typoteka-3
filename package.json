@@ -5,7 +5,7 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js --version --help --generate 5",
-    "start.dev": "node ./src/service/service.js --generate 3 && nodemon ./src/service/service.js --server 8000",
+    "start.dev": "node ./src/service/service.js --generate 1 && nodemon ./src/service/service.js --server 8000",
     "start-front-server.dev": "NODE_ENV=development nodemon ./src/express/express.js",
     "start-front-server": "NODE_ENV=production nodemon ./src/express/express.js",
     "test": "npm run eslint",
