@@ -30,19 +30,27 @@ class ArticleService {
   }
 
   delete(id) {
+    const deletedArticle = this._articles.find((item) => item.id === id);
     this._articles = this._articles.filter((item) => item.id !== id);
+
+    return deletedArticle;
   }
 
   deleteComment(article, commentId) {
-    for (let i = 0; i < this._articles.length; i++) {
-      for (let j = 0; j < this._articles[i].comments.length; j++) {
-        if (this._articles[i].comments[j].id === commentId) {
-          this._articles[i].comments.splice(j, 1);
-        }
-      }
-    }
+    let delComment = article.comments.find((item) => item.id === commentId);
 
-    return article;
+    article.comments = article.comments.filter((item) => item.id !== commentId);
+
+    // for (let i = 0; i < this._articles.length; i++) {
+    //   for (let j = 0; j < this._articles[i].comments.length; j++) {
+    //     if (this._articles[i].comments[j].id === commentId) {
+    //       delComment = this._articles[i].comments[j];
+    //       this._articles[i].comments.splice(j, 1);
+    //     }
+    //   }
+    // }
+
+    return delComment;
   }
 
   createComment(articleId, comment) {
