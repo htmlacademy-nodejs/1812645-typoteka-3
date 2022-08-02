@@ -2,11 +2,10 @@
 
 const express = require(`express`);
 const chalk = require(`chalk`);
-const getMockData = require(`../lib/get-mock-data`);
 const routes = require(`../api`);
+const {getLogger} = require(`../lib/logger`);
 
 const {
-  MOCK_FILE_NAME,
   DEFAULT_PORT,
   HttpCode,
   PAGE_NOT_FOUND,
@@ -14,23 +13,31 @@ const {
   API_PREFIX,
 } = require(`../const/constants`);
 
+const logger = getLogger({name: `api`});
+
 const app = express();
 
 app.use(express.json());
 
 app.use(API_PREFIX, routes);
 
-app.get(`/posts`, async (req, res) => {
-  try {
-    const fileContent = await getMockData(MOCK_FILE_NAME);
-    const mocks = JSON.parse(fileContent);
-    res.json(mocks);
-  } catch (error) {
-    res.send([]);
-  }
+app.use((req, res, next) => {
+  logger.debug(`Request on route ${req.url}`);
+  res.on(`finish`, () => {
+    logger.info(`Response status code: ${res.statusCode}`);
+  });
+  next();
 });
 
-app.use((req, res) => res.status(HttpCode.NOT_FOUND).send(PAGE_NOT_FOUND));
+app.use((req, res) => {
+  res.status(HttpCode.NOT_FOUND).send(PAGE_NOT_FOUND);
+  logger.error(`Route not found: ${req.url}`);
+});
+
+app.use((err, _req, _res, next) => {
+  logger.error(`An error occurred on processing request: ${err.message}`);
+  next();
+});
 
 module.exports = {
   name: `--server`,
@@ -39,11 +46,11 @@ module.exports = {
 
     app.listen(port, (err) => {
       if (err) {
-        console.error(chalk.red(`Ошибка при создании сервера: ${err}`));
+        logger.error(`Error when creating the server: ${err.message}`);
         return ExitCode.error;
       }
 
-      console.info(chalk.green(`Ожидаю соединений на ${port} порт`));
+      logger.info(chalk.green(`Waiting for connections on ${port} port`));
     });
 
     return ExitCode.success;
