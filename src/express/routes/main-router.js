@@ -3,11 +3,13 @@
 const {Router} = require(`express`);
 
 const mainRouter = new Router();
+const api = require(`../api`).getAPI();
 
 // главная страница
-mainRouter.get(`/`, (req, res) =>
-  res.render(`main`)
-);
+mainRouter.get(`/`, async (req, res) => {
+  const articles = await api.getArticles();
+  res.render(`main`, {articles});
+});
 
 // поиск
 mainRouter.get(`/search`, (req, res) =>
