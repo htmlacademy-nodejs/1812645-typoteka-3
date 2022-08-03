@@ -2,7 +2,7 @@
 
 const {getArrayOfArgv} = require(`../service/utils/utils`);
 const {Cli} = require(`../service/cli`);
-const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode} = require(`../service/const/constants`);
+const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode} = require(`../constants`);
 
 const exec = async () => {
   let result = 0;

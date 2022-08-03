@@ -15,7 +15,7 @@ const {
   FILE_COMMENTS_PATH,
   MAX_ID_LENGTH,
   MAX_COMMENTS,
-} = require(`../const/constants`);
+} = require(`../../constants`);
 
 const {
   getRandomInt,

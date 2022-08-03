@@ -10,7 +10,7 @@ const mainRouter = require(`./routes/main-router`);
 const {
   PUBLIC_DIR,
   PORT_FOR_FRONT,
-} = require(`../service/const/constants`);
+} = require(`../constants`);
 
 const app = express();
 

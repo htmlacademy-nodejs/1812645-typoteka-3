@@ -3,7 +3,7 @@
 const axios = require(`axios`);
 
 const TIMEOUT = 1000;
-const {DEFAULT_PORT} = require(`../service/const/constants`);
+const {DEFAULT_PORT} = require(`../constants`);
 
 const port = process.env.API_PORT || DEFAULT_PORT;
 const defaultUrl = `http://localhost:${port}/api/`;
