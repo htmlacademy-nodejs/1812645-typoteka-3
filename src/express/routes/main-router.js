@@ -2,19 +2,41 @@
 
 const {Router} = require(`express`);
 
-const mainRouter = new Router();
+const {OFFERS_PER_PAGE} = require(`../../constants`);
+
 const api = require(`../api`).getAPI();
+
+const mainRouter = new Router();
 
 // главная страница
 mainRouter.get(`/`, async (req, res) => {
-  const articles = await api.getArticles();
-  res.render(`main`, {articles});
+  const limit = OFFERS_PER_PAGE;
+
+  const [articles, categories] = await Promise.all([
+    api.getArticles({limit}),
+    api.getCategories()
+  ]);
+
+  res.render(`main`, {articles, categories});
 });
 
 // поиск
-mainRouter.get(`/search`, (req, res) =>
-  res.render(`search`)
-);
+mainRouter.get(`/search`, async (req, res) => {
+  const {query} = req.query;
+
+  if (!query) {
+    res.render(`search`);
+    return;
+  }
+
+  try {
+    const results = await api.search(query);
+
+    res.render(`search-result`, {results, query});
+  } catch (error) {
+    res.render(`search-result`, {results: []});
+  }
+});
 
 // Регистрация
 mainRouter.get(`/register`, (req, res) =>

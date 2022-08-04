@@ -8,11 +8,12 @@ head
   link(rel='preload' href='/fonts/Inter-Regular.woff2' as='font' crossorigin='anonymous')
   link(rel='preload' href='/fonts/Inter-Medium.woff2' as='font' crossorigin='anonymous')
   link(rel='preload' href='/fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
-  link(rel='stylesheet' href='css/style.min.css')
+  link(rel='stylesheet' href='/css/style.min.css')
 body
-  .wrapper
-    include partials/header.pug
-    block content
-    include partials/footer.pug
-    script(src='/js/vendor.js')
-    script(src='/js/main.js')
+  mixin insertTitleAddArticle(articleData)
+    input(type='text' name='title' placeholder=`${articleData ? articleData.title : 'Заголовок'}` required='')
+
+  block content
+
+  script(src='/js/vendor.js')
+  script(src='/js/main.js')

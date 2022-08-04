@@ -23,6 +23,8 @@ module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
 module.exports.DEFAULT_COMMAND = `--help`;
 module.exports.USER_ARGV_INDEX = 2;
 
+module.exports.OFFERS_PER_PAGE = 4;
+
 module.exports.DEFAULT_PORT = 8000;
 module.exports.PORT_FOR_FRONT = 8080;
 
@@ -45,3 +47,9 @@ module.exports.Env = {
   PRODUCTION: `production`
 };
 
+module.exports.HttpMethod = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};

@@ -1,9 +1,6 @@
-### Проверка REST сервера
-GET http://localhost:3000/posts
+## Проверка Front
 
-### Проверка Роутера Шаблонизатора
-
-### главная страница
+### * главная страница
 GET http://localhost:8080
 
 ### регистрация
@@ -12,28 +9,28 @@ GET http://localhost:8080/register
 ### Логин
 GET http://localhost:8080/login
 
-### поиск
+### * поиск
 GET http://localhost:8080/search
 
-### мои публикации
+### * Мои публикации
 GET http://localhost:8080/my
 
-### Комментарии к публикациям
+### * Мои комментарии к публикациям
 GET http://localhost:8080/my/comments
 
-### Категории
+### * Мои категории
 GET http://localhost:8080/my/categories
 
-### страница публикации
+### * Страница публикации
 GET http://localhost:8080/articles/5
 
 ### публикации в определённой категории
 GET http://localhost:8080/articles/category/8
 
-### страница создания новой публикации
+### * Страница создания новой публикации
 GET http://localhost:8080/articles/add
 
-### редактирование публикации
+### * Редактирование публикации
 GET http://localhost:8080/articles/edit/4
 
 ## Проверка сервиса REST API

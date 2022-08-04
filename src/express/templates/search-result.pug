@@ -4,7 +4,7 @@ block content
   .wrapper-color
     header.header
       a.header__logo.logo(href='/')
-        img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
+        img.logo__image(src='img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
         span.logo__name Типотека
       button.button.button--colored.header__button-new Новая запись
       .header__dropdown
@@ -23,11 +23,20 @@ block content
     main
       section.search-page
         .search-page__wrapper
-          h1 Поиск
+          h1 Результаты поиска
           .search.search-page__form
             form(action=`/search` method='get' autocomplete='off')
               label
-                input(type='text' name='query' placeholder='Что ищем?' value='Путешествия')
+                input(type='text' placeholder='Что ищем?' value=`${query ? query : 'Что ищем?'}` name='query')
               button.search__button.button.button--transparent(type='submit') Найти
+
+            if (results.length === 0)
+              .search__result
+                p.search-page__empty Ничего не нашлось
+            else
+              each result of results
+                .search__result
+                  time.search__date(datetime='2019-03-21T20:33') #{result.createDate}
+                  a.search__link #{result.title}
 
     include partials/footer.pug
