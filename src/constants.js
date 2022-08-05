@@ -6,6 +6,8 @@ module.exports.ExitCode = {
 };
 
 module.exports.PUBLIC_DIR = `public`;
+module.exports.UPLOAD_DIR = `../upload/img/`;
+module.exports.FILE_TYPES = [`image/png`, `image/jpg`, `image/jpeg`];
 
 module.exports.MOCK_FILE_NAME = `mocks.json`;
 module.exports.FILE_TITLES_PATH = `./data/titles.txt`;

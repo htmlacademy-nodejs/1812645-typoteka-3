@@ -12,5 +12,8 @@ Thumbs.db
 mock*.json
 node_modules/
 
+# Директория с загруженными изображениями
+src/express/upload/img/*.*
+
 # Директория с собранными файлами проекта
 build/

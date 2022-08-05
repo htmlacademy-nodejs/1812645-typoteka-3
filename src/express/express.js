@@ -9,6 +9,7 @@ const mainRouter = require(`./routes/main-router`);
 
 const {
   PUBLIC_DIR,
+  UPLOAD_DIR,
   PORT_FOR_FRONT,
 } = require(`../constants`);
 
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
+app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
 
 app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);

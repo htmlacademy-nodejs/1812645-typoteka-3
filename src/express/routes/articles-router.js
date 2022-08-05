@@ -3,6 +3,7 @@
 const {Router} = require(`express`);
 
 const api = require(`../api`).getAPI();
+const upload = require(`../middlewares/upload`);
 
 const articlesRouter = new Router();
 
@@ -12,10 +13,11 @@ articlesRouter.get(`/add`, async (req, res) => {
 });
 
 // запрос создания новой публикации
-articlesRouter.post(`/add`, async (req, res) => {
-  // const {body} = req;
+articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
+  const {body, file} = req;
 
   const articleData = {
+    picture: file ? file.file : ``,
     title: `Заголовок публикации`,
     createDate: new Date(Date.now()),
     announce: `Это публикация создана из браузера с помощью post`,
