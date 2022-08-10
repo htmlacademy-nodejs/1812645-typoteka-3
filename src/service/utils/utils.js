@@ -54,7 +54,7 @@ const readFile = async (filePath) => {
 const writeFile = async (filePath, content) => {
   try {
     await fs.writeFile(filePath, content);
-    console.log(chalk.green(`\n\t Operation success. File created.`));
+    console.log(chalk.green(`\n\t Operation success. File "${filePath}" created.`));
     return ExitCode.success;
   } catch (error) {
     console.error(chalk.red(`\n\t ${error.message}`));
