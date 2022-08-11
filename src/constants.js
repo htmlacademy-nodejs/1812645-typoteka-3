@@ -14,7 +14,7 @@ module.exports.FILE_TITLES_PATH = `./data/titles.txt`;
 module.exports.FILE_CATEGORIES_PATH = `./data/announces.txt`;
 module.exports.FILE_ANNOUNCES_PATH = `./data/sentences.txt`;
 module.exports.FILE_COMMENTS_PATH = `./data/comments.txt`;
-module.exports.FILE_SQL_TABLE_FILL = `fill_db.sql`;
+module.exports.FILE_SQL_TABLE_FILL = `./utils_for_db/fill_db.sql`;
 
 module.exports.API_PREFIX = `/api`;
 
