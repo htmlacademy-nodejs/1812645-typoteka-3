@@ -52,7 +52,7 @@ const generateComments = (count, articleId, userCount, comments) => (
 const generateArticles = (count, titles, categoryCount, userCount, announces, comments) => (
   Array(count).fill({}).map((_, index) => ({
     title: titles[getRandomInt(0, titles.length - 1)],
-    announce: shufflingArray(announces).slice(0, 5).join(` `),
+    announce: shufflingArray(announces).slice(0, 1).join(` `),
     fulltext: shufflingArray(announces).slice(1, getRandomInt(1, announces.length - 1)).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     category: [getRandomInt(1, categoryCount)],
