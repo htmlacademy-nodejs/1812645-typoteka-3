@@ -16,6 +16,7 @@ const {
   shufflingArray,
   readFile,
   writeFile,
+  getPictureFileName,
 } = require(`../utils/utils`);
 
 const users = [
@@ -38,8 +39,6 @@ const PictureRestrict = {
   MIN: 1,
   MAX: 16,
 };
-
-const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.jpg`;
 
 const generateComments = (count, articleId, userCount, comments) => (
   Array(count).fill({}).map(() => ({
