@@ -12,15 +12,16 @@ const {
   ArticleService,
   CategoryService,
   SearchService,
+  CommentService
 } = require(`../data-service`);
 
 const app = new Router();
 
 defineModels(sequelize);
 
-(async () => {
+(() => {
   categories(app, new CategoryService(sequelize));
-  articles(app, new ArticleService(sequelize));
+  articles(app, new ArticleService(sequelize), new CommentService(sequelize));
   search(app, new SearchService(sequelize));
 })();
 

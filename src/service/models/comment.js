@@ -10,7 +10,8 @@ const define = (sequelize) => Comment.init({
     allowNull: false
   },
   data: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: false
   }
 }, {
   sequelize,

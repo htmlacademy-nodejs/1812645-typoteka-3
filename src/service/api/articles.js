@@ -9,7 +9,7 @@ const commentExists = require(`../middlewares/comment-exits`);
 
 const router = new Router();
 
-module.exports = (app, articleService) => {
+module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, router);
 
   router.post(`/`, articleValidator, async (req, res) => {
@@ -52,27 +52,27 @@ module.exports = (app, articleService) => {
   });
 
   router.get(`/:articleId/comments`, articleExists(articleService), async (req, res) => {
-    const {article} = res.locals;
+    const {articleId} = req.params;
 
-    return res.status(HttpCode.OK).send(article.comments);
+    const comments = await commentService.findAll(articleId);
+
+    return res.status(HttpCode.OK).json(comments);
   });
 
-  router.post(`/:articleId/comments`,
-      [articleExists(articleService), commentValidator],
-      async (req, res) => {
+  router.post(`/:articleId/comments`, [articleExists(articleService), commentValidator], async (req, res) => {
         const newComment = req.body;
         const {articleId} = req.params;
 
-        const comment = articleService.createComment(articleId, newComment);
+        const comment = await commentService.create(articleId, newComment);
 
         return res.status(HttpCode.CREATED).json(comment);
       }
   );
 
-  router.delete(`/:articleId/comments/:commentId`, commentExists(articleService), async (req, res) => {
-    const {article, commentId} = res.locals;
+  router.delete(`/:articleId/comments/:commentId`, commentExists(articleService, commentService), async (req, res) => {
+    const {commentId} = res.locals;
 
-    const delComment = articleService.deleteComment(article, commentId);
+    const delComment = await commentService.delete(commentId);
 
     return res.status(HttpCode.OK).json(delComment);
   });
