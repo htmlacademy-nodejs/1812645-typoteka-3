@@ -14,7 +14,7 @@ mainRouter.get(`/`, async (req, res) => {
 
   const [articles, categories] = await Promise.all([
     api.getArticles({limit}),
-    api.getCategories()
+    api.getCategories(true)
   ]);
 
   res.render(`main`, {articles, categories});

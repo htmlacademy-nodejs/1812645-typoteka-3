@@ -44,8 +44,8 @@ class API {
     return this._load(`/articles/${id}`);
   }
 
-  async getCategories() {
-    return this._load(`/categories`);
+  async getCategories(count) {
+    return this._load(`/categories`, {params: {count}});
   }
 
   search(query) {

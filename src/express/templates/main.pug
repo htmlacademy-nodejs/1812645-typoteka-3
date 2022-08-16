@@ -24,7 +24,7 @@ block content
           each category in categories
             li.themes__item
               a.themes__item-link(href='#') #{category.name}
-                sup 88
+                sup #{category.count}
 
       .main-page__section-flex
         section.main-page__hot.hot
@@ -50,9 +50,7 @@ block content
 
       section.main-page__list.preview
         h2.visually-hidden Список превью статей
-
         ul.preview__list
-
           li.preview__item
             ul.preview__breadcrumbs
               li.preview__breadcrumbs-item
