@@ -33,11 +33,15 @@ class ArticleService {
     return articles.map((item) => item.get());
   }
 
-  findOne(id, needComments) {
-    const include = [Aliases.CATEGORIES];
+  findOne(id, needComments, needCategories) {
+    const include = [];
 
     if (needComments) {
       include.push(Aliases.COMMENTS);
+    }
+
+    if (needCategories) {
+      include.push(Aliases.CATEGORIES);
     }
 
     return this._Article.findByPk(id, {include});

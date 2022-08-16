@@ -21,9 +21,9 @@ block content
 
         h2.visually-hidden Список тем
         ul.themes
-          each category of categories
+          each category in categories
             li.themes__item
-              a.themes__item-link(href='#') #{category}
+              a.themes__item-link(href='#') #{category.name}
                 sup 88
 
       .main-page__section-flex
@@ -32,7 +32,7 @@ block content
             | Самое обсуждаемое
             span.hot__icon.hot__icon--fire
           ul.hot__list
-            each article of articles
+            each article in articles
               li.hot__list-item
                 a.hot__list-link(href='#') #{article.announce}
                   sup.hot__link-sup #{article.comments.length}
@@ -42,7 +42,7 @@ block content
             | Последние комментарии
             span.last__icon.last__icon--cloud
           ul.last__list
-            each article of articles
+            each article in articles
               li.last__list-item
                 img.last__list-image(src='/img/avatar-small-1.png' width='20' height='20' alt='Аватар пользователя')
                 b.last__list-name Анна Артамонова

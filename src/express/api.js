@@ -36,8 +36,8 @@ class API {
     });
   }
 
-  async getArticles() {
-    return this._load(`/articles`);
+  async getArticles({withComments, limit} = 0) {
+    return this._load(`/articles`, {params: {withComments, limit}});
   }
 
   getArticle(id) {
