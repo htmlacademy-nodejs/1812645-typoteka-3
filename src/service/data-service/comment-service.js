@@ -18,7 +18,7 @@ class CommentService {
   }
 
   async findAll(articleId) {
-    return  await this._Comment.findAll({
+    return await this._Comment.findAll({
       where: {articleId},
       raw: true
     });

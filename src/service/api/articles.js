@@ -15,13 +15,13 @@ module.exports = (app, articleService, commentService) => {
   router.post(`/`, articleValidator, async (req, res) => {
     const {newArticle} = res.locals;
 
-    const article = await articleService.createArticle(newArticle);
+    const article = await articleService.create(newArticle);
 
     return res.status(HttpCode.CREATED).json(article);
   });
 
   router.get(`/`, async (req, res) => {
-    const articles = await articleService.findAll();
+    const articles = await articleService.findAll(true);
 
     res.status(HttpCode.OK).json(articles);
   });
@@ -32,16 +32,14 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).json(article);
   });
 
-  router.put(`/:articleId`,
-      [articleExists(articleService), articleValidator],
-      (req, res) => {
-        const {articleId} = req.params;
-        const newArticle = req.body;
+  router.put(`/:articleId`, [articleExists(articleService), articleValidator], async (req, res) => {
+    const {articleId} = req.params;
+    const newArticle = req.body;
 
-        const article = articleService.update(articleId, newArticle);
+    const article = await articleService.update(articleId, newArticle);
 
-        return res.status(HttpCode.OK).json(article);
-      });
+    return res.status(HttpCode.OK).json(article);
+  });
 
   router.delete(`/:articleId`, articleExists(articleService), async (req, res) => {
     const {article} = res.locals;
@@ -60,14 +58,13 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.post(`/:articleId/comments`, [articleExists(articleService), commentValidator], async (req, res) => {
-        const newComment = req.body;
-        const {articleId} = req.params;
+    const newComment = req.body;
+    const {articleId} = req.params;
 
-        const comment = await commentService.create(articleId, newComment);
+    const comment = await commentService.create(articleId, newComment);
 
-        return res.status(HttpCode.CREATED).json(comment);
-      }
-  );
+    return res.status(HttpCode.CREATED).json(comment);
+  });
 
   router.delete(`/:articleId/comments/:commentId`, commentExists(articleService, commentService), async (req, res) => {
     const {commentId} = res.locals;

@@ -1,39 +1,62 @@
 'use strict';
 
-const {nanoid} = require(`nanoid`);
-const {MAX_ID_LENGTH} = require(`../../constants`);
+const Aliases = require(`../models/aliase`);
 
 class ArticleService {
   constructor(sequelize) {
     this._Article = sequelize.models.Article;
+    this._Category = sequelize.models.Category;
+    this._Comment = sequelize.models.Comment;
   }
 
-  createArticle(article) {
-    const newArticle = Object.assign({id: nanoid(MAX_ID_LENGTH), comments: []}, article);
+  async create(articleData) {
+    const article = await this._Article.create(articleData);
+    await article.addCategories(articleData.categories);
 
-    this._articles.push(newArticle);
-    return newArticle;
+    return article.get();
   }
 
-  findAll() {
-    return this._articles;
+  async findAll(needComments) {
+    const include = [Aliases.CATEGORIES];
+
+    if (needComments) {
+      include.push(Aliases.COMMENTS);
+    }
+
+    const articles = await this._Article.findAll({
+      include,
+      order: [
+        [`createdAt`, `DESC`]
+      ]
+    });
+
+    return articles.map((item) => item.get());
   }
 
-  findOne(id) {
-    return this._Article.findByPk(id);
+  findOne(id, needComments) {
+    const include = [Aliases.CATEGORIES];
+
+    if (needComments) {
+      include.push(Aliases.COMMENTS);
+    }
+
+    return this._Article.findByPk(id, {include});
   }
 
-  update(id, newArticle) {
-    const oldArticle = this._articles.find((item) => item.id === id);
+  async update(id, newArticle) {
+    const [affectedRows] = await this._Article.update(newArticle, {
+      where: {id}
+    });
 
-    return Object.assign(oldArticle, newArticle);
+    return !!affectedRows;
   }
 
-  delete(id) {
-    const deletedArticle = this._articles.find((item) => item.id === id);
-    this._articles = this._articles.filter((item) => item.id !== id);
+  async delete(id) {
+    const deletedRows = await this._Article.destroy({
+      where: {id}
+    });
 
-    return deletedArticle;
+    return !!deletedRows;
   }
 }
 
