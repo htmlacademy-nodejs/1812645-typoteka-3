@@ -2,7 +2,7 @@
 
 const {Router} = require(`express`);
 
-const {OFFERS_PER_PAGE} = require(`../../constants`);
+const {ARTICLES_PER_PAGE} = require(`../../constants`);
 
 const api = require(`../api`).getAPI();
 
@@ -10,14 +10,19 @@ const mainRouter = new Router();
 
 // главная страница
 mainRouter.get(`/`, async (req, res) => {
-  const limit = OFFERS_PER_PAGE;
+  const limit = ARTICLES_PER_PAGE;
+  let {page = 1} = req.query;
+  page = +page;
+  const offset = (page - 1) * ARTICLES_PER_PAGE;
 
-  const [articles, categories] = await Promise.all([
-    api.getArticles({limit}),
-    api.getCategories(true)
+  const [{count, articles}, categories] = await Promise.all([
+    api.getArticles({offset, limit}),
+    api.getCategories(true),
   ]);
 
-  res.render(`main`, {articles, categories});
+  const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
+
+  res.render(`main`, {page, totalPages, articles, categories});
 });
 
 // поиск

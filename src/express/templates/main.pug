@@ -35,7 +35,7 @@ block content
             each article in articles
               li.hot__list-item
                 a.hot__list-link(href='#') #{article.announce}
-                  sup.hot__link-sup #{article.comments.length}
+                  //sup.hot__link-sup #{article.comments[0].length}
 
         section.main-page__last.last
           h2.last__name
@@ -46,7 +46,7 @@ block content
               li.last__list-item
                 img.last__list-image(src='/img/avatar-small-1.png' width='20' height='20' alt='Аватар пользователя')
                 b.last__list-name Анна Артамонова
-                a.last__list-link(href='#') #{article.comments[0].text}
+                //a.last__list-link(href='#') #{article.comments[0].text}
 
       section.main-page__list.preview
         h2.visually-hidden Список превью статей
@@ -126,21 +126,24 @@ block content
               span.preview__cloud
               b.preview__comment-count 12
 
-      .preview__toggle-wrapper
-        ul.preview__pagination.pagination
-          li
-            a.pagination__button.button.button--backwards.button--disabled(href='#' aria-label='Страница назад') Назад
-          li.pagination__item.pagination__item--active
-            a(href='#') 1
-          li.pagination__item
-            a(href='#') 2
-          li.pagination__item
-            a(href='#') 3
-          li.pagination__item
-            a(href='#') 4
-          li.pagination__item
-            a(href='#') 5
-          li
-            a.pagination__button.button.button--forward(href='#' aria-label='Страница вперед') Вперед
+
+      +pagination(page, totalPages, 2, `?`)
+
+      //.preview__toggle-wrapper
+      //  ul.preview__pagination.pagination
+      //    li
+      //      a.pagination__button.button.button--backwards.button--disabled(href='#' aria-label='Страница назад') Назад
+      //    li.pagination__item.pagination__item--active
+      //      a(href='#') 1
+      //    li.pagination__item
+      //      a(href='#') 2
+      //    li.pagination__item
+      //      a(href='#') 3
+      //    li.pagination__item
+      //      a(href='#') 4
+      //    li.pagination__item
+      //      a(href='#') 5
+      //    li
+      //      a.pagination__button.button.button--forward(href='#' aria-label='Страница вперед') Вперед
 
     include partials/footer.pug

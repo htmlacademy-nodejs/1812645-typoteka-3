@@ -21,9 +21,16 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.get(`/`, async (req, res) => {
-    const articles = await articleService.findAll(true);
+    const {offset, limit, withComments} = req.query;
+    let result;
 
-    res.status(HttpCode.OK).json(articles);
+    if (limit || offset) {
+      result = await articleService.findPage({limit, offset});
+    } else {
+      result = await articleService.findAll(withComments);
+    }
+
+    res.status(HttpCode.OK).json(result);
   });
 
   router.get(`/:articleId`, articleExists(articleService), async (req, res) => {

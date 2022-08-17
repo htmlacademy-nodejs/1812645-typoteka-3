@@ -62,6 +62,19 @@ class ArticleService {
 
     return !!deletedRows;
   }
+
+  async findPage({limit, offset}) {
+    const {count, rows} = await this._Article.findAndCountAll({
+      limit,
+      offset,
+      include: [Aliases.CATEGORIES],
+      order: [
+        [`createdAt`, `DESC`]
+      ],
+      distinct: true
+    });
+    return {count, articles: rows};
+  }
 }
 
 module.exports = ArticleService;

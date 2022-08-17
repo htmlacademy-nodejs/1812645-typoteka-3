@@ -16,12 +16,12 @@ module.exports = async (sequelize, {categories, articles, users}) => {
   const categoryIdByName = categoryModels.reduce((acc, next) => ({
     [next.name]: next.id,
     ...acc
-  }), []);
+  }), {});
 
   const articlePromises = articles.map(async (article) => {
     const articleModel = await Article.create(article, {include: [Aliases.COMMENTS]});
     await articleModel.addCategories(
-        article.categories.map((name) => categoryIdByName[name])
+        article.categories[0].map((name) => categoryIdByName[name])
     );
   });
 
