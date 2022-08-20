@@ -74,7 +74,7 @@ const generateArticles = (count, titles, categories, userCount, announces, comme
     announce: shufflingArray(announces).slice(0, 1).join(` `),
     fulltext: shufflingArray(announces).slice(1, getRandomInt(1, announces.length - 10)).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
-    categories: [getRandomSubarray(categories)],
+    categories: getRandomSubarray(categories),
     comments: generateComments(getRandomInt(1, MAX_COMMENTS), index + 1, userCount, comments),
     userId: getRandomInt(1, userCount),
   }))
