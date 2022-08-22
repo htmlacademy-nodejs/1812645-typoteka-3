@@ -4,38 +4,43 @@ const {Router} = require(`express`);
 
 const api = require(`../api`).getAPI();
 const upload = require(`../middlewares/upload`);
+const {ensureArray, prepareErrors} = require(`../../utils/utils`);
 
 const articlesRouter = new Router();
 
+const getAddOfferData = () => {
+  return api.getCategories({withCount: false});
+};
+
 // страница создания новой публикации
 articlesRouter.get(`/add`, async (req, res) => {
-  res.render(`article-add`);
+  const categories = await getAddOfferData();
+  res.render(`article-add`, {categories});
 });
 
-// запрос создания новой публикации
+// запрос на создание новой публикации
 articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
   const {body, file} = req;
 
   const articleData = {
-    picture: file ? file.file : ``,
-    title: `Заголовок публикации`,
-    createDate: new Date(Date.now()),
-    announce: `Это публикация создана из браузера с помощью post`,
-    fulltext: `Тут полный текст публикации`,
-    category: `Миру Мир!`,
-    comments: [
-      {
-        "id": `qqHu76`,
-        "text": `Это где ж такие красоты? Плюсую, но слишком много буквы!`
-      }
-    ]
+    picture: file ? file.filename : null,
+    title: body.title,
+    announce: body.announce,
+    fulltext: body.fulltext,
+    categories: ensureArray([1, 2]),
+    createdAt: body.date ? body.date : new Date(Date.now()),
+    userId: 1,
   };
 
   try {
     await api.createArticle(articleData);
-    res.redirect(`/`);
+
+    res.redirect(`/my`);
   } catch (errors) {
-    res.render(`article-add`, {articleData});
+    const validationMessages = prepareErrors(errors);
+    const categories = await getAddOfferData();
+
+    res.render(`article-add`, {articleData, validationMessages, categories});
   }
 });
 
@@ -48,7 +53,38 @@ articlesRouter.get(`/edit/:id`, async (req, res) => {
     api.getCategories()
   ]);
 
-  res.render(`article-edit`, {article, categories});
+  res.render(`article-edit`, {id, article, categories});
+});
+
+// запрос на редактирование публикации
+articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
+  const {body, file} = req;
+  const {id} = req.params;
+
+  const articleData = {
+    picture: file ? file.filename : null,
+    title: body.title,
+    announce: body.announce,
+    fulltext: body.fulltext,
+    categories: ensureArray([1, 2]),
+    createdAt: body.date ? body.date : new Date(Date.now()),
+    userId: 1,
+  };
+
+  try {
+    await api.editArticles({id, data: articleData});
+
+    res.redirect(`/my`);
+  } catch (errors) {
+    const validationMessages = prepareErrors(errors);
+
+    const [article, categories] = await Promise.all([
+      api.getArticle(id),
+      api.getCategories()
+    ]);
+
+    res.render(`article-edit`, {id, article, categories, validationMessages});
+  }
 });
 
 // страница публикации

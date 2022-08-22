@@ -18,7 +18,7 @@ block content
             a(href='main.html') Пункт меню
           li.navigation__item
             a(href='main.html') Пункт меню
-      a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
+      a.header__search.button.button--search(href='/search' aria-label='поиск по сайту')
 
     main
       section
@@ -42,7 +42,7 @@ block content
                 .form__wrapper.form__wrapper--intro
                   .form__field
                     label
-                      input(type='text' name='title' placeholder='Заголовок' required=`${articleData ? articleData.title : 'Заголовок'}`)
+                      input(type='text' name='title' value=`${articleData ? articleData.title : 'Заголовок'}` required="")
                   .form__field.form__field--post-image
                     label
                       input#image-name-field(type='text' name='photo' placeholder='Фотография' readonly='')
@@ -51,13 +51,19 @@ block content
                         input.visually-hidden(type='file' name='avatar')
                         | Обзор
                   .new-publication__category-wrapper
+                    each category in categories
+                      .new-publication__checkbox.new-publication__checkbox--auto
+                        input#checkbox-auto(type='checkbox' name='category-1')
+                        label(for='checkbox-auto' value=category.id) #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
                 .form__wrapper.form__wrapper--text
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='5' name='announcement' placeholder=`${articleData ? articleData.announce : 'Анонс публикации'}`)
+                      textarea(rows='5' name='announce' placeholder=`${articleData ? articleData.announce : 'Анонс публикации'}`)
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='10' name='full-text' placeholder=`${articleData ? articleData.fulltext : 'Полный текст публикации'}`)
+                      textarea(rows='10' name='fulltext' placeholder=`${articleData ? articleData.fulltext : 'Полный текст публикации'}`)
+
+            +insertErrorMessage(validationMessages)
 
     include partials/footer.pug

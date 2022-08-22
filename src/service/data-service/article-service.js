@@ -16,27 +16,33 @@ class ArticleService {
     return article.get();
   }
 
-  async findAll(needComments) {
+  async findAll(withComments) {
     const include = [Aliases.CATEGORIES];
 
-    if (needComments) {
+    if (withComments) {
       include.push(Aliases.COMMENTS);
     }
 
-    const articles = await this._Article.findAll({
+    let articles = await this._Article.findAll({
       include,
       order: [
         [`createdAt`, `DESC`]
       ]
     });
 
-    return articles.map((item) => item.get());
+    articles = articles.map((item) => item.get());
+
+    if (withComments) {
+      articles = articles.filter((article) => article.comments.length > 0);
+    }
+
+    return articles;
   }
 
-  findOne(id, needComments, needCategories) {
+  findOne(id, withComments, needCategories) {
     const include = [];
 
-    if (needComments) {
+    if (withComments) {
       include.push(Aliases.COMMENTS);
     }
 
@@ -63,16 +69,23 @@ class ArticleService {
     return !!deletedRows;
   }
 
-  async findPage({limit, offset}) {
+  async findPage({limit, offset, withComments}) {
+    const include = [Aliases.CATEGORIES];
+
+    if (withComments) {
+      include.push(Aliases.COMMENTS);
+    }
+
     const {count, rows} = await this._Article.findAndCountAll({
       limit,
       offset,
-      include: [Aliases.CATEGORIES],
+      include,
       order: [
         [`createdAt`, `DESC`]
       ],
-      distinct: true
+      distinct: true,
     });
+
     return {count, articles: rows};
   }
 }
