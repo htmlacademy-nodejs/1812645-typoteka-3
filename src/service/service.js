@@ -1,6 +1,6 @@
 'use strict';
 
-const {getArrayOfArgv} = require(`../service/utils/utils`);
+const {getArrayOfArgv} = require(`../utils/utils`);
 const {Cli} = require(`../service/cli`);
 const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode} = require(`../constants`);
 

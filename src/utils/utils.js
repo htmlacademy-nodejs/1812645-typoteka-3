@@ -2,7 +2,7 @@
 
 const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
-const {ExitCode} = require(`../../constants`);
+const {ExitCode} = require(`../constants`);
 
 const getArrayOfArgv = (argv) => {
   let arr = [];
@@ -77,6 +77,12 @@ const printOffers = (arr) => {
 
 const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.jpg`;
 
+const prepareErrors = (errors) => {
+  return errors.response.data.split(`\n`);
+};
+
+const ensureArray = (value) => Array.isArray(value) ? value : [value];
+
 module.exports = {
   getArrayOfArgv,
   getRandomInt,
@@ -87,4 +93,6 @@ module.exports = {
   readFile,
   writeFile,
   getPictureFileName,
+  prepareErrors,
+  ensureArray,
 };

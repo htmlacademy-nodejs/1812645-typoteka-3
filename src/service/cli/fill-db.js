@@ -20,7 +20,7 @@ const {
   getRandomDate,
   shufflingArray,
   readFile,
-} = require(`../utils/utils`);
+} = require(`../../utils/utils`);
 
 const users = [
   {
