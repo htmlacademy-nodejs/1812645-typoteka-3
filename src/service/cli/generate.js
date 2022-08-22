@@ -24,7 +24,7 @@ const {
   conversionToString,
   readFile,
   writeFile,
-} = require(`../utils/utils`);
+} = require(`../../utils/utils`);
 
 const generateComments = (count, comments) => (
   Array(count).fill({}).map(() => ({

@@ -17,7 +17,7 @@ const {
   readFile,
   writeFile,
   getPictureFileName,
-} = require(`../utils/utils`);
+} = require(`../../utils/utils`);
 
 const users = [
   {
