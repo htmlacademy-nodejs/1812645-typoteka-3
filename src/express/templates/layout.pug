@@ -15,7 +15,21 @@ head
       pointer-events: none;
     }
 
+  style.
+    .server-error {
+      border-radius: 10px;
+      color: white;
+      background-color: tomato;
+      margin: 20px 0;
+      padding: 10px;
+    }
+
 body
+  mixin insertErrorMessage(messages)
+    if messages
+      each message in messages
+        .server-error=message
+
   mixin insertTitleAddArticle(articleData)
     input(type='text' name='title' placeholder=`${articleData ? articleData.title : 'Заголовок'}` required='')
 

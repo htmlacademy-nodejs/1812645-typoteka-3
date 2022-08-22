@@ -19,6 +19,7 @@ block content
           li.navigation__item
             a(href='main.html') Пункт меню
       a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
+
     main
       section
         .popup.popup--new-publication.popup--anti
@@ -40,13 +41,13 @@ block content
                 .form__wrapper.form__wrapper--intro
                   .form__field
                     label
-                      input(type='text' name='title' placeholder='Заголовок' value=`${article.title}` required='')
+                      input(type='text' name='title' placeholder='Заголовок' required='' value=article.title)
                   .form__field.form__field--post-image
                     label
-                      input#image-name-field(type='text' name='photo' value='moya_mashinka.jpg' placeholder='Фотография' readonly='')
+                      input#image-name-field(type='text' name='photo' value=article.picture placeholder='Фотография' readonly='')
                     .form__image-loader.form__image-loader--publication
                       label
-                        input.visually-hidden(type='file' name='upload')
+                        input.visually-hidden(type='file' name='avatar')
                         | Обзор
                     button.button.button--transparent Удалить
 
@@ -54,15 +55,17 @@ block content
                     each category in categories
                       .new-publication__checkbox.new-publication__checkbox--auto
                         input#checkbox-auto(type='checkbox' name='category-1')
-                        label(for='checkbox-auto') #{category.name}
+                        label(for='checkbox-auto' value=category.id) #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
 
                 .form__wrapper.form__wrapper--text
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='5' name='announcement' placeholder='Анонс публикации') #{article.announce}
+                      textarea(rows='5' name='announce') #{article.announce}
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='10' name='full-text' placeholder='Полный текст публикации') #{article.fulltext}
+                      textarea(rows='10' name='fulltext') #{article.fulltext}
+
+                +insertErrorMessage(validationMessages)
 
     include partials/footer.pug

@@ -29,6 +29,7 @@ module.exports.USER_ARGV_INDEX = 2;
 module.exports.ARTICLES_PER_PAGE = 8;
 
 module.exports.DEFAULT_PORT = 8000;
+module.exports.TIMEOUT = 1000;
 module.exports.PORT_FOR_FRONT = 8080;
 
 module.exports.PAGE_NOT_FOUND = `Страница не найдена`;
