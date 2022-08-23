@@ -3,7 +3,7 @@
 const express = require(`express`);
 const path = require(`path`);
 
-const myCommentsRoutes = require(`./routes/admin-articles-router`);
+const myCommentsRoutes = require(`./routes/admin-router`);
 const articlesRoutes = require(`./routes/articles-router`);
 const mainRouter = require(`./routes/main-router`);
 
