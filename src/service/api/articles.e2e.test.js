@@ -5,7 +5,7 @@ const request = require(`supertest`);
 
 const articles = require(`./articles`);
 const {ArticleService} = require(`../data-service`);
-const {HttpCode} = require(`../const/constants`);
+const {HttpCode} = require(`../../constants`);
 
 const mockData = [
   {

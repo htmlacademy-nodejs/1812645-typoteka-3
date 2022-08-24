@@ -7,7 +7,7 @@
     "start": "node ./src/service/service.js --version --help --generate 5",
     "start.dev": "cross-env NODE_ENV=development LOG_LEVEL=debug node ./src/service/service.js --generate 2 && nodemon ./src/service/service.js --server 8000",
     "start.prod": "cross-env NODE_ENV=production LOG_LEVEL=error node ./src/service/service.js --generate 2 && nodemon ./src/service/service.js --server 8000",
-    "start-front-server.dev": "NODE_ENV=development nodemon ./src/express/express.js",
+    "start-front-server.dev": "nodemon ./src/express/express.js",
     "start-front-server": "NODE_ENV=production nodemon ./src/express/express.js",
     "test": "npm run eslint && npm run jest",
     "jest": "jest",
@@ -32,10 +32,12 @@
     "supertest": "6.2.4"
   },
   "dependencies": {
+    "axios": "0.27.2",
     "cross-env": "7.0.3",
     "dotenv": "16.0.1",
     "express": "4.18.1",
     "lodash": "^4.17.21",
+    "multer": "1.4.5-lts.1",
     "nanoid": "^3.3.4",
     "pino": "6.6.0",
     "pug": "3.0.2",

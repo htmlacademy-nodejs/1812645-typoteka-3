@@ -2,7 +2,7 @@
 
 const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
-const {ExitCode} = require(`../const/constants`);
+const {ExitCode} = require(`../../constants`);
 
 const getArrayOfArgv = (argv) => {
   let arr = [];

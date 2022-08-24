@@ -1,6 +1,6 @@
 'use strict';
 
-const {HttpCode} = require(`../const/constants`);
+const {HttpCode} = require(`../../constants`);
 const commentKey = [`text`];
 
 module.exports = (req, res, next) => {

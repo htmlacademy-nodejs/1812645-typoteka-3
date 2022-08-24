@@ -11,7 +11,7 @@ const {
   PAGE_NOT_FOUND,
   ExitCode,
   API_PREFIX,
-} = require(`../const/constants`);
+} = require(`../../constants`);
 
 const logger = getLogger({name: `api`});
 

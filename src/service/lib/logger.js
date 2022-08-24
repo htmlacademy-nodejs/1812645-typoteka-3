@@ -1,7 +1,7 @@
 'use strict';
 
 const pino = require(`pino`);
-const {Env} = require(`../const/constants`);
+const {Env} = require(`../../constants`);
 
 const LOG_FILE = `./logs/api.log`;
 

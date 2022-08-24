@@ -5,7 +5,7 @@ const categories = require(`../api/categories`);
 const articles = require(`../api/articles`);
 const search = require(`../api/search`);
 
-const {MOCK_FILE_NAME} = require(`../const/constants`);
+const {MOCK_FILE_NAME} = require(`../../constants`);
 const getMockData = require(`../lib/get-mock-data`);
 
 const {

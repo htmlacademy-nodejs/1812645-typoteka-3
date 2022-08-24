@@ -6,6 +6,8 @@ module.exports.ExitCode = {
 };
 
 module.exports.PUBLIC_DIR = `public`;
+module.exports.UPLOAD_DIR = `../upload/img/`;
+module.exports.FILE_TYPES = [`image/png`, `image/jpg`, `image/jpeg`];
 
 module.exports.MOCK_FILE_NAME = `mocks.json`;
 module.exports.FILE_TITLES_PATH = `./data/titles.txt`;
@@ -23,8 +25,11 @@ module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
 module.exports.DEFAULT_COMMAND = `--help`;
 module.exports.USER_ARGV_INDEX = 2;
 
+module.exports.OFFERS_PER_PAGE = 4;
+
 module.exports.DEFAULT_PORT = 8000;
-module.exports.PORT_FOR_EXPRESS = 8080;
+module.exports.PORT_FOR_FRONT = 8080;
+
 module.exports.PAGE_NOT_FOUND = `Страница не найдена`;
 module.exports.INTERNAL_SERVER_ERROR = `Внутренняя ошибка сервера`;
 
@@ -44,3 +49,9 @@ module.exports.Env = {
   PRODUCTION: `production`
 };
 
+module.exports.HttpMethod = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};

@@ -1,6 +1,6 @@
 'use strict';
 
-const {HttpCode} = require(`../const/constants`);
+const {HttpCode} = require(`../../constants`);
 const articleKeys = [`title`, `createDate`, `announce`, `fulltext`, `category`];
 
 module.exports = (req, res, next) => {
