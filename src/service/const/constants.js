@@ -5,6 +5,8 @@ module.exports.ExitCode = {
   success: 0,
 };
 
+module.exports.PUBLIC_DIR = `public`;
+
 module.exports.MOCK_FILE_NAME = `mocks.json`;
 module.exports.FILE_TITLES_PATH = `./data/titles.txt`;
 module.exports.FILE_CATEGORIES_PATH = `./data/announces.txt`;

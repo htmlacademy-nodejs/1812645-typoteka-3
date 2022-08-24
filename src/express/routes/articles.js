@@ -4,24 +4,24 @@ const {Router} = require(`express`);
 
 const articlesRouter = new Router();
 
+// страница создания новой публикации
+articlesRouter.get(`/add`, (req, res) =>
+  res.render(`post`)
+);
+
 // страница публикации
 articlesRouter.get(`/:id`, (req, res) =>
-  res.send(`Страница публикации: /articles/:id ${req.params.id}`)
+  res.render(`post-detail`)
+);
+
+// публикации в определённой категории
+articlesRouter.get(`/category/:id`, (req, res) =>
+  res.render(`articles-by-category`)
 );
 
 // редактирование публикации
-articlesRouter.patch(`/edit/:id`, (req, res) =>
-  res.send(`Редактирование публикации: /articles/edit/:id ${req.params.id}`)
-);
-
-// страница создания новой публикации
-articlesRouter.post(`/add`, (req, res) =>
-  res.send(`Страница создания новой публикации: /articles/add`)
-);
-
-// публикации определённой категории
-articlesRouter.get(`/category/:id`, (req, res) =>
-  res.send(`Публикации определённой категории: /articles/category/:id ${req.params.id}`)
+articlesRouter.get(`/edit/:id`, (req, res) =>
+  res.render(`post`)
 );
 
 module.exports = articlesRouter;
