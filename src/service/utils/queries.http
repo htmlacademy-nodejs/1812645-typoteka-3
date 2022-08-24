@@ -17,3 +17,48 @@ Content-Type: application/json
   "body": "Текст публикации",
   "userId": 31337
 }
+
+### Получить все комментарии к публикациям
+
+GET https://jsonplaceholder.typicode.com/comments HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET https://jsonplaceholder.typicode.com/comments?postId=1 HTTP/1.1
+Content-Type: application/json
+
+### проверка Роутера
+
+### главная страница
+GET http://localhost:8080
+
+### регистрация
+GET http://localhost:8080/register
+
+### Логин
+GET http://localhost:8080/login
+
+### мои публикации
+GET http://localhost:8080/my
+
+### комментарии к публикациям
+GET http://localhost:8080/my/comments
+
+### публикации определённой категории
+GET http://localhost:8080/articles/category/8
+
+### страница создания новой публикации
+POST http://localhost:8080/articles/add
+
+### поиск
+GET http://localhost:8080/search
+
+### редактирование публикации
+PATCH http://localhost:8080/articles/edit/4
+
+### страница публикации
+GET http://localhost:8080/articles/5
+
+### Категории
+GET http://localhost:8080/my/categories

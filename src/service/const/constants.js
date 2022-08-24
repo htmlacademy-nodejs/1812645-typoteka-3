@@ -17,6 +17,7 @@ module.exports.DEFAULT_COMMAND = `--help`;
 module.exports.USER_ARGV_INDEX = 2;
 
 module.exports.DEFAULT_PORT = 8000;
+module.exports.PORT_FOR_EXPRESS = 8080;
 module.exports.PAGE_NOT_FOUND = `Страница не найдена`;
 module.exports.INTERNAL_SERVER_ERROR = `Внутренняя ошибка сервера`;
 
