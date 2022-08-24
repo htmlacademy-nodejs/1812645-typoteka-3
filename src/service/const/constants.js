@@ -6,6 +6,10 @@ module.exports.ExitCode = {
 };
 
 module.exports.MOCK_FILE_NAME = `mocks.json`;
+module.exports.FILE_TITLES_PATH = `./data/titles.txt`;
+module.exports.FILE_CATEGORIES_PATH = `./data/announces.txt`;
+module.exports.FILE_ANNOUNCES_PATH = `./data/sentences.txt`;
+
 module.exports.DEFAULT_COUNT = 1;
 module.exports.RANGE_OF_DAYS = 90;
 module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
