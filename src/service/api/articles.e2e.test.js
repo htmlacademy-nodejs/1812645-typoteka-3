@@ -7,7 +7,6 @@ const Sequelize = require(`sequelize`);
 const initDB = require(`../lib/init-db`);
 const articles = require(`./articles`);
 const {ArticleService, CommentService} = require(`../data-service`);
-const articleValidator = require(`../middlewares/article-validator`);
 const {HttpCode} = require(`../../constants`);
 
 const mockUsers = [
@@ -119,14 +118,12 @@ describe(`API returns an article with given id`, () => {
 
 describe(`API creates an article if data is valid`, () => {
   const newArticle = {
-    "title": `IT-NEW 1 great profession?`,
-    "createDate": `2022-05-10T22:09:45.448Z`,
-    "announce": `О Небе`,
+    "title": `IT-NEW 1 great profession? Заголовок минимум тридцать символов!!!`,
+    "announce": `О Небе. Анонс публикации так-же, должен быть минимум тридцать символов!!!`,
     "fulltext": `Альбом стал настоящим открытием года.`,
     "userId": `2`,
-    "categories": [
-      `2`
-    ]
+    "categories": [`2`],
+    "createdAt": `2022-05-10T22:09:45.448Z`,
   };
 
   let response;
@@ -139,8 +136,10 @@ describe(`API creates an article if data is valid`, () => {
 
   test(`Status code 201`, () => expect(response.statusCode).toBe(HttpCode.CREATED));
 
-  test(`Returns article created`, () => request(app)
-    .get(`/articles`).expect((res) => expect(res.body.length).toBe(3))
+  test(`Checking title`, () => expect(response.body.title).toBe(`IT-NEW 1 great profession? Заголовок минимум тридцать символов!!!`));
+
+  test(`Checking for the number of publications`, () => request(app)
+    .get(`/articles`).expect((res) => expect(res.body.length).toBe(2))
   );
 });
 
@@ -159,15 +158,14 @@ describe(`API refuses to create an article if data invalid`, () => {
     app = await createAPI();
   });
 
-  // TODO база позволяет создавать запись из невалидных данных
   test(`When field type is wrong response code is 400`, async () => {
     const badArticles = [
-      // {...newArticle, categories: `Котики`},
+      {...newArticle, categories: `Котики`},
       {...newArticle, title: 1234},
     ];
 
     for (const badArticle of badArticles) {
-      await request(app).post(`/articles`, articleValidator).send(badArticle).expect(HttpCode.CREATED);
+      await request(app).post(`/articles`).send(badArticle).expect(HttpCode.BAD_REQUEST);
     }
   });
 
@@ -182,11 +180,12 @@ describe(`API refuses to create an article if data invalid`, () => {
 
 describe(`API changes existent article`, () => {
   const newArticle = {
-    "title": `Редактируем существующий пост`,
-    "createDate": `2022-05-10T22:09:45.448Z`,
-    "announce": `Производство артиклей на потоке`,
-    "fulltext": `Создание поста настоящее открытие года.`,
-    "categories": [`3`],
+    "title": `!!! четвертый раз !!! четвертый раз !!! четвертый раз !!! четвертый раз`,
+    "announce": `Если разделитель является регулярным выражением, содержащим подгруппы, то каждый раз при сопоставлении с разделителем, результаты (включая те, что не определены) захвата подгруппы будут помещаться внутрь выходного массива.`,
+    "fulltext": `объект заметки`,
+    "categories": [`3`, `5`, `7`],
+    "createdAt": `2022-07-17`,
+    "userId": `2`,
   };
 
   let app;
@@ -200,31 +199,33 @@ describe(`API changes existent article`, () => {
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
 
   test(`Article is really changed`, () => request(app).get(`/articles/2`)
-      .expect((res) => expect(res.body.title).toBe(`Редактируем существующий пост`))
+      .expect((res) => expect(res.body.title).toBe(`!!! четвертый раз !!! четвертый раз !!! четвертый раз !!! четвертый раз`))
   );
 });
 
 test(`API returns status code 404 when trying to change non-existent article`, async () => {
   const validArticle = {
-    "title": `Это`,
-    "createDate": `2022-05-10T22:09:45.448Z`,
-    "announce": `валидный`,
-    "fulltext": `объект`,
-    "categories": [`3`],
+    "title": `Это валидный пост, созданный для проверки!!!`,
+    "announce": `Если разделитель является регулярным выражением, содержащим подгруппы, то каждый раз при сопоставлении с разделителем, результаты (включая те, что не определены) захвата подгруппы будут помещаться внутрь выходного массива.`,
+    "fulltext": `объект заметки`,
+    "categories": [`3`, `5`, `7`],
+    "createdAt": `2022-07-17`,
+    "userId": `2`,
   };
 
   const app = await createAPI();
 
-  return request(app).put(`/articles/20`).send(validArticle)
+  return request(app).put(`/articles/200`).send(validArticle)
     .expect((res) => expect(res.statusCode).toBe(HttpCode.NOT_FOUND));
 });
 
 test(`API returns status code 400 when trying to change an article with invalid data`, async () => {
   const invalidArticle = {
-    "title": `Это`,
-    "announce": `не валидный`,
-    "fulltext": `объект заметки: нет поля createDate`,
-    "categories": [`3`],
+    "title": `Это валидный пост, созданный для проверки!!!`,
+    "announce": `Если разделитель является регулярным выражением, содержащим подгруппы, то каждый раз при сопоставлении с разделителем, результаты (включая те, что не определены) захвата подгруппы будут помещаться внутрь выходного массива.`,
+    "fulltext": `объект заметки`,
+    "categories": [`3`, `5`, `7`],
+    "userId": `2`,
   };
 
   const app = await createAPI();
@@ -250,7 +251,7 @@ describe(`API correctly deletes an articles`, () => {
   );
 });
 
-test(`API refuses to delete non-existent offer`, async () => {
+test(`API refuses to delete non-existent article`, async () => {
   const app = await createAPI();
 
   return request(app).delete(`/articles/20`).expect(HttpCode.NOT_FOUND);
@@ -273,6 +274,47 @@ describe(`API returns a list of comments to given article`, () => {
     expect(response.body[0].text).toBe(`Совсем немного...,`));
 });
 
+describe(`API creates a comment if data is valid`, () => {
+  const newComment = {
+    text: `Валидному комментарию достаточно этих полей`,
+    userId: 1,
+  };
+
+  let app;
+  let response;
+
+  beforeAll(async () => {
+    app = await createAPI();
+    response = await request(app).post(`/articles/2/comments`).send(newComment);
+  });
+
+  test(`Status code 201`, () => expect(response.statusCode).toBe(HttpCode.CREATED));
+
+  test(`Comments count is changed`, () => request(app)
+    .get(`/articles/2/comments`).expect((res) => expect(res.body.length).toBe(2))
+  );
+});
+
+test(`API refuses to create a comment to non-existent article and returns status code 404`, async () => {
+  const app = await createAPI();
+
+  return request(app).post(`/articles/200/comments`).send({
+    text: `Валидному комментарию достаточно этих полей`,
+    userId: 1,
+  })
+    .expect(HttpCode.NOT_FOUND);
+});
+
+test(`API refuses to create a comment when data is invalid, and returns status code 400`, async () => {
+  const invalidComment = {
+    text: `Не указан userId`
+  };
+
+  const app = await createAPI();
+
+  return request(app).post(`/articles/2/comments`).send(invalidComment).expect(HttpCode.BAD_REQUEST);
+});
+
 test(`Status code 404 if article with id is not found`, async () => {
   const app = await createAPI();
 
@@ -281,7 +323,8 @@ test(`Status code 404 if article with id is not found`, async () => {
 
 describe(`API creates a comment if data is valid`, () => {
   const newComment = {
-    text: `Валидному комментарию достаточно этого поля`,
+    "text": `Совсем немного... Давно не пользуюсь стационарными компьютерами. Ноутбуки победили.`,
+    "userId": 1
   };
 
   let response;
@@ -300,7 +343,7 @@ describe(`API creates a comment if data is valid`, () => {
       .expect((res) => expect(res.body.length).toBe(2)));
 });
 
-test(`API refuses to create a comment to non-existent offer and returns status code 404`, async () => {
+test(`API refuses to create a comment to non-existent article and returns status code 404`, async () => {
   const app = await createAPI();
 
   return request(app).post(`/articles/20/comments`).send({text: `Текст неважен`}).expect(HttpCode.NOT_FOUND);
