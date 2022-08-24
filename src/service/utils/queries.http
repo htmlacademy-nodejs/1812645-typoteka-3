@@ -35,3 +35,40 @@ GET http://localhost:8080/articles/add
 
 ### редактирование публикации
 GET http://localhost:8080/articles/edit/4
+
+## Проверка сервиса REST API
+
+### Возвращает список публикаций
+GET http://localhost:8000/api/articles
+
+### Возвращает полную информацию о публикации
+GET http://localhost:8000/api/articles/1
+
+### Создаёт новую публикацию
+POST http://localhost:8000/api/articles
+
+### Редактирует определённую публикацию
+PUT http://localhost:8000/api/articles/1
+
+### Удаляет определённую публикацию
+DELETE http://localhost:8000/api/articles/aFyh1W
+
+### Возвращает список комментариев определённой публикации;
+GET http://localhost:8000/api/articles/1/comments
+
+### Удаляет из определённой публикации комментарий с идентификатором;
+DELETE http://localhost:8000/api/articles/1/comments/1
+
+### Создаёт новый комментарий;
+POST http://localhost:8000/api/articles/5ywLgb/comments
+Content-Type: application/json
+
+{
+  "text": "HTML Academy"
+}
+
+### Возвращает результаты поиска
+GET /api/search?query=
+
+### Возвращает список категорий;
+GET http://localhost:8000/api/categories

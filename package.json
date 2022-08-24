@@ -5,8 +5,9 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js --version --help --generate 5",
-    "start.dev": "node ./src/service/service.js --version --generate 5 && nodemon ./src/service/service.js --server 3000",
-    "start-front-server": "nodemon ./src/express/express.js",
+    "start.dev": "node ./src/service/service.js --generate 1 && nodemon ./src/service/service.js --server 8000",
+    "start-front-server.dev": "NODE_ENV=development nodemon ./src/express/express.js",
+    "start-front-server": "NODE_ENV=production nodemon ./src/express/express.js",
     "test": "npm run eslint",
     "eslint": "eslint --ext .js src/"
   },
@@ -23,11 +24,17 @@
   "devDependencies": {
     "eslint": "8.5.0",
     "eslint-config-htmlacademy": "0.6.0",
-    "nodemon": "2.0.18"
+    "nodemon": "^2.0.19",
+    "supertest": "6.2.4"
   },
   "dependencies": {
+    "cross-env": "7.0.3",
+    "dotenv": "16.0.1",
     "express": "4.18.1",
+    "lodash": "^4.17.21",
+    "nanoid": "3.1.3",
     "pag": "^1.0.1",
-    "pug": "3.0.2"
+    "pug": "3.0.2",
+    "snack-cli": "^2.0.0"
   }
 }
