@@ -46,9 +46,24 @@ GET http://localhost:8000/api/articles/1
 
 ### Создаёт новую публикацию
 POST http://localhost:8000/api/articles
+Content-Type: application/json
+
+{
+  "title": "Небо каким цветом?",
+  "createDate": "2022-05-10T22:09:45.448Z",
+  "announce": "О Небе",
+  "fulltext": "Альбом стал настоящим открытием года.",
+  "category": "Небо"
+}
 
 ### Редактирует определённую публикацию
-PUT http://localhost:8000/api/articles/1
+PUT http://localhost:8000/api/articles/5nKQH2
+Content-Type: application/json
+
+{
+  "title": "Теперь новый заголовок!",
+  "category": "Категория"
+}
 
 ### Удаляет определённую публикацию
 DELETE http://localhost:8000/api/articles/aFyh1W

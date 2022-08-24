@@ -32,35 +32,29 @@ module.exports = (app, articleService) => {
     return res.status(HttpCode.OK).json(article);
   });
 
-  router.put(`/:articleId`, articleExists(articleService), (req, res) => {
-    const {articleId} = req.params;
-    const newArticle = req.body;
+  router.put(`/:articleId`,
+      [articleExists(articleService), articleValidator],
+      (req, res) => {
+        const {articleId} = req.params;
+        const newArticle = req.body;
 
-    const article = articleService.update(articleId, newArticle);
+        const article = articleService.update(articleId, newArticle);
 
-    return res.status(HttpCode.OK).json(article);
-  });
+        return res.status(HttpCode.OK).json(article);
+      });
 
   router.delete(`/:articleId`, articleExists(articleService), async (req, res) => {
     const {article} = res.locals;
 
-    await articleService.delete(article.id);
+    const delArticle = await articleService.delete(article.id);
 
-    return res.status(HttpCode.OK).send(`Article with id ${article.id} deleted`);
+    return res.status(HttpCode.OK).json(delArticle);
   });
 
   router.get(`/:articleId/comments`, articleExists(articleService), async (req, res) => {
     const {article} = res.locals;
 
     return res.status(HttpCode.OK).send(article.comments);
-  });
-
-  router.delete(`/:articleId/comments/:commentId`, commentExists(articleService), async (req, res) => {
-    const {article, commentId} = res.locals;
-
-    const art = articleService.deleteComment(article, commentId);
-
-    return res.status(HttpCode.OK).json(art);
   });
 
   router.post(`/:articleId/comments`,
@@ -72,5 +66,14 @@ module.exports = (app, articleService) => {
         const comment = articleService.createComment(articleId, newComment);
 
         return res.status(HttpCode.CREATED).json(comment);
-      });
+      }
+  );
+
+  router.delete(`/:articleId/comments/:commentId`, commentExists(articleService), async (req, res) => {
+    const {article, commentId} = res.locals;
+
+    const delComment = articleService.deleteComment(article, commentId);
+
+    return res.status(HttpCode.OK).json(delComment);
+  });
 };
