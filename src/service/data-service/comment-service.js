@@ -22,8 +22,13 @@ class CommentService {
     });
   }
 
-  async findOne(commentId) {
-    return await this._Comment.findByPk(commentId);
+  async findOne(articleId, commentId) {
+    return await this._Comment.findOne({
+      where: {
+        id: commentId,
+        articleId,
+      }
+    });
   }
 
   async delete(id) {

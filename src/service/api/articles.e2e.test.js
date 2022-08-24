@@ -361,15 +361,15 @@ describe(`API correctly deletes a comment`, () => {
 
   beforeAll(async () => {
     app = await createAPI();
-    response = await request(app).delete(`/articles/2/comments/1`);
+    response = await request(app).delete(`/articles/1/comments/1`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
 
   test(`Returns comment deleted`, () => expect(response.body).toBe(true));
 
-  test(`Comments count is 1 now`, () => request(app).get(`/articles/2/comments`)
-    .expect((res) => expect(res.body.length).toBe(1))
+  test(`Comments count is 1 now`, () => request(app).get(`/articles/1/comments`)
+    .expect((res) => expect(res.body.length).toBe(3))
   );
 });
 
