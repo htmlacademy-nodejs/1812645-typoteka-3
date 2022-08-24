@@ -7,6 +7,7 @@ class ArticleService {
     this._Article = sequelize.models.Article;
     this._Category = sequelize.models.Category;
     this._Comment = sequelize.models.Comment;
+    this._User = sequelize.models.User;
   }
 
   async create(articleData) {
@@ -17,10 +18,31 @@ class ArticleService {
   }
 
   async findAll(withComments) {
-    const include = [Aliases.CATEGORIES];
+    const include = [
+      Aliases.CATEGORIES,
+      {
+        model: this._User,
+        as: Aliases.USERS,
+        attributes: {
+          exclude: [`passwordHash`]
+        }
+      }
+    ];
 
     if (withComments) {
-      include.push(Aliases.COMMENTS);
+      include.push({
+        model: this._Comment,
+        as: Aliases.COMMENTS,
+        include: [
+          {
+            model: this._User,
+            as: Aliases.USERS,
+            attributes: {
+              exclude: [`passwordHash`]
+            }
+          }
+        ]
+      });
     }
 
     let articles = await this._Article.findAll({
@@ -39,15 +61,32 @@ class ArticleService {
     return articles;
   }
 
-  findOne(id, withComments, needCategories) {
-    const include = [];
+  findOne(id, withComments) {
+    const include = [
+      Aliases.CATEGORIES,
+      {
+        model: this._User,
+        as: Aliases.USERS,
+        attributes: {
+          exclude: [`passwordHash`]
+        }
+      }
+    ];
 
     if (withComments) {
-      include.push(Aliases.COMMENTS);
-    }
-
-    if (needCategories) {
-      include.push(Aliases.CATEGORIES);
+      include.push({
+        model: this._Comment,
+        as: Aliases.COMMENTS,
+        include: [
+          {
+            model: this._User,
+            as: Aliases.USERS,
+            attributes: {
+              exclude: [`passwordHash`]
+            }
+          }
+        ]
+      });
     }
 
     return this._Article.findByPk(id, {include});
@@ -70,7 +109,16 @@ class ArticleService {
   }
 
   async findPage({limit, offset, withComments}) {
-    const include = [Aliases.CATEGORIES];
+    const include = [
+      Aliases.CATEGORIES,
+      {
+        model: this._User,
+        as: Aliases.USERS,
+        attributes: {
+          exclude: [`passwordHash`]
+        }
+      }
+    ];
 
     if (withComments) {
       include.push(Aliases.COMMENTS);
@@ -86,7 +134,12 @@ class ArticleService {
       distinct: true,
     });
 
-    return {count, articles: rows};
+    let articles;
+    if (withComments) {
+      articles = rows.filter((article) => article.comments.length > 0);
+    }
+
+    return {count, articles};
   }
 }
 
