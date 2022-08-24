@@ -6,14 +6,12 @@ class CommentService {
     this._Comment = sequelize.models.Comment;
   }
 
-  async create(articleId, comment) {
-    const article = await this._Article.findByPk(articleId);
-
+  async create(articleId, newComment) {
     return this._Comment.create({
       articleId,
-      userId: article.userId,
+      userId: newComment.userId,
       data: new Date(Date.now()),
-      ...comment
+      text: newComment.text
     });
   }
 

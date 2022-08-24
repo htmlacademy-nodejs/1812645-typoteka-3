@@ -50,6 +50,13 @@ class API {
     });
   }
 
+  createComment({id, data}) {
+    return this._load(`/articles/${id}/comments`, {
+      method: HttpMethod.POST,
+      data
+    });
+  }
+
   search(query) {
     return this._load(`/search`, {params: {query}});
   }
