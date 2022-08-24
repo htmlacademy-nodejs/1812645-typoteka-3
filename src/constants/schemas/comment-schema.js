@@ -10,11 +10,12 @@ const {
 module.exports = Joi.object({
   text: Joi.string()
     .min(20)
-    .max(250)
+    .max(1000)
     .required()
     .messages({
       'string.min': ErrorCommentMessage.TEXT_MIN,
       'string.max': ErrorCommentMessage.TEXT_MAX,
+      'any.required': ErrorCommentMessage.TEXT_EMPTY,
     }),
   userId: Joi.number()
     .integer()

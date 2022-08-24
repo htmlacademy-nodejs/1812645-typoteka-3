@@ -6,7 +6,8 @@ class Comment extends Model {}
 
 const define = (sequelize) => Comment.init({
   text: {
-    type: DataTypes.STRING,
+    // eslint-disable-next-line new-cap
+    type: DataTypes.STRING(1000),
     allowNull: false
   },
   data: {

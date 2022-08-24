@@ -29,6 +29,7 @@ module.exports.ErrorCategoriesMessage = {
 module.exports.ErrorCommentMessage = {
   TEXT_MIN: `Заголовок содержит меньше 20 символов`,
   TEXT_MAX: `Заголовок не может содержать более 250 символов`,
+  TEXT_EMPTY: `Отсутствует комментарий`,
   USER_ID_EMPTY: `Не указан пользователь, создавший комментарий`,
 };
 

@@ -91,18 +91,36 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
 articlesRouter.get(`/:id`, async (req, res) => {
   const {id} = req.params;
 
+  const article = await api.getArticle(id);
+
+  res.render(`article-detail`, {article});
+});
+
+// создание комментария к публикации
+articlesRouter.post(`/:id/comments`, upload.single(`avatar`), async (req, res) => {
+  const {id} = req.params;
+  const {message} = req.body;
+
+  const newComment = {
+    userId: 1,
+    text: message,
+  };
+
   try {
-    const article = await api.getArticle(id);
-    res.render(`article-detail`, {article});
+    await api.createComment({id, data: newComment});
+
+    res.redirect(`/articles/${id}`);
   } catch (errors) {
-    // res.redirect(`/my`);
-    res.render(`article-detail`);
+    const validationMessages = prepareErrors(errors);
+    const article = await api.getArticle(id);
+
+    res.render(`article-detail`, {article, validationMessages});
   }
 });
 
 // публикации в определённой категории
 articlesRouter.get(`/category/:id`, (req, res) =>
-  res.render(`articles-by-category`)
+  res.render(`article-by-category`)
 );
 
 module.exports = articlesRouter;
