@@ -1,0 +1,19 @@
+HEAD /posts HTTP/1.1
+Host: jsonplaceholder.typicode.com
+
+###
+
+GET /posts HTTP/1.1
+Host: jsonplaceholder.typicode.com
+
+###
+
+POST /posts HTTP/1.1
+Host: jsonplaceholder.typicode.com
+Content-Type: application/json
+
+{
+  "title": "Новая публикация",
+  "body": "Текст публикации",
+  "userId": 31337
+}

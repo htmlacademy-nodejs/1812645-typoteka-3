@@ -4,6 +4,7 @@
   "description": "\"Типотека\"",
   "main": "./src/service/service.js",
   "scripts": {
+    "start.dev": "node ./src/service/service.js --version --generate 5 && nodemon ./src/service/service.js --server 3000",
     "start": "node ./src/service/service.js",
     "test": "npm run eslint",
     "eslint": "eslint --ext .js src/"
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/lgmarch/1812645-typoteka-3#readme",
   "devDependencies": {
     "eslint": "8.5.0",
-    "eslint-config-htmlacademy": "0.6.0"
+    "eslint-config-htmlacademy": "0.6.0",
+    "nodemon": "2.0.18"
   }
 }

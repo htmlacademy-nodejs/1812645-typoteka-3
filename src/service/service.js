@@ -6,6 +6,7 @@ const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode} = require(`../service/const/c
 
 const exec = async () => {
   let result = 0;
+  let serverRun = false;
   let arrayOfUserCommand = getArrayOfArgv(process.argv.slice(USER_ARGV_INDEX));
 
   if (arrayOfUserCommand.length === 0) {
@@ -21,9 +22,16 @@ const exec = async () => {
     if (result !== ExitCode.success) {
       process.exit(ExitCode.error);
     }
+
+    if (result === ExitCode.success && command === `--server`) {
+      serverRun = true;
+    }
+  }
+
+  if (!serverRun) {
+    process.exit(ExitCode.success);
   }
 };
 
-exec().then(() => {
-  process.exit(ExitCode.success);
-});
+exec()
+  .then(() => console.log(`\n *** *** \n`));

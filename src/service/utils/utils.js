@@ -44,9 +44,9 @@ const readFile = async (filePath) => {
   try {
     const content = await fs.readFile(filePath, `utf-8`);
     console.log(chalk.green(`\t Read file ${filePath}`));
-    return content.trim().split(`n`);
+    return content.trim().split(`\n`);
   } catch (error) {
-    console.error(chalk.red(`\t Can't read file ${filePath}`));
+    console.error(chalk.red(`\t ${error.message}`));
     return error;
   }
 };
@@ -57,7 +57,7 @@ const writeFile = async (filePath, content) => {
     console.log(chalk.green(`\n\t Operation success. File created.`));
     return ExitCode.success;
   } catch (error) {
-    console.error(chalk.red(`\n\t Can't write data to file...`));
+    console.error(chalk.red(`\n\t ${error.message}`));
     return error;
   }
 };
