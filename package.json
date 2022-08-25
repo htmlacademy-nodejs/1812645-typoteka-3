@@ -5,8 +5,9 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js --version --help --generate 5",
-    "start.dev": "cross-env NODE_ENV=development LOG_LEVEL=debug node -r dotenv/config ./src/service/service.js --generate 2 && nodemon -r dotenv/config ./src/service/service.js --server 8000",
-    "start.prod": "cross-env NODE_ENV=production LOG_LEVEL=error node -r dotenv/config ./src/service/service.js --generate 2 && node ./src/service/service.js --server 8000",
+    "fill.db": "cross-env NODE_ENV=development LOG_LEVEL=debug node -r dotenv/config ./src/service/service.js --filldb 3",
+    "start.dev": "cross-env NODE_ENV=development LOG_LEVEL=debug nodemon -r dotenv/config ./src/service/service.js --server 8000",
+    "start.prod": "cross-env NODE_ENV=production LOG_LEVEL=error node -r dotenv/config ./src/service/service.js --server 8000",
     "start-front-server.dev": "cross-env NODE_ENV=development nodemon -r dotenv/config ./src/express/express.js",
     "start-front-server": "cross-env NODE_ENV=production node -r dotenv/config ./src/express/express.js",
     "test": "npm run eslint && npm run jest",

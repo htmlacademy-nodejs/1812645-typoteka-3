@@ -75,6 +75,8 @@ const printOffers = (arr) => {
   });
 };
 
+const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.jpg`;
+
 module.exports = {
   getArrayOfArgv,
   getRandomInt,
@@ -84,4 +86,5 @@ module.exports = {
   printOffers,
   readFile,
   writeFile,
+  getPictureFileName,
 };
