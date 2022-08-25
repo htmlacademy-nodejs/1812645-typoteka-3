@@ -61,7 +61,7 @@ const getRandomSubarray = (items) => {
 
 const generateComments = (count, articleId, userCount, comments) => (
   Array(count).fill({}).map(() => ({
-    userId: getRandomInt(1, userCount),
+    userEmail: users[getRandomInt(0, users.length - 1)].email,
     articleId,
     text: shufflingArray(comments).slice(0, getRandomInt(1, 3)).join(` `),
     data: getRandomDate(RANGE_OF_DAYS),
@@ -76,7 +76,7 @@ const generateArticles = (count, titles, categories, userCount, announces, comme
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     categories: getRandomSubarray(categories),
     comments: generateComments(getRandomInt(1, MAX_COMMENTS), index + 1, userCount, comments),
-    userId: getRandomInt(1, userCount),
+    userEmail: users[getRandomInt(0, users.length - 1)].email,
   }))
 );
 
