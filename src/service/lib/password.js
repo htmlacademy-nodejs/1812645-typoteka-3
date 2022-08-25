@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 const {hash, hashSync, compare} = require(`bcrypt`);
 

@@ -3,7 +3,8 @@
 const {Router} = require(`express`);
 
 const {ARTICLES_PER_PAGE} = require(`../../constants`);
-
+const upload = require(`../middlewares/upload`);
+const {prepareErrors} = require(`../../utils/utils`);
 const api = require(`../api`).getAPI();
 
 const mainRouter = new Router();
@@ -47,6 +48,29 @@ mainRouter.get(`/search`, async (req, res) => {
 mainRouter.get(`/register`, (req, res) =>
   res.render(`sign-up`)
 );
+
+mainRouter.post(`/register`, upload.single(`avatar`), async (req, res) => {
+  const {body, file} = req;
+
+  const userData = {
+    avatar: file ? file.filename : null,
+    firstName: body.name,
+    lastName: body.surname,
+    email: body.email,
+    password: body.password,
+    passwordRepeated: body[`repeat-password`]
+  };
+
+  try {
+    await api.createUser({data: userData});
+
+    res.redirect(`/login`);
+  } catch (errors) {
+    const validationMessages = prepareErrors(errors);
+
+    res.render(`sign-up`, {userData, validationMessages});
+  }
+});
 
 // Логин
 mainRouter.get(`/login`, (req, res) =>

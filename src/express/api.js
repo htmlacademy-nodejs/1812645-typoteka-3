@@ -39,10 +39,6 @@ class API {
     return this._load(`/articles/${id}`);
   }
 
-  async getCategories(count) {
-    return this._load(`/categories`, {params: {count}});
-  }
-
   async editArticles({id, data}) {
     return this._load(`/articles/${id}`, {
       method: HttpMethod.PUT,
@@ -50,8 +46,19 @@ class API {
     });
   }
 
+  async getCategories(count) {
+    return this._load(`/categories`, {params: {count}});
+  }
+
   createComment({id, data}) {
     return this._load(`/articles/${id}/comments`, {
+      method: HttpMethod.POST,
+      data
+    });
+  }
+
+  createUser({data}) {
+    return this._load(`/user`, {
       method: HttpMethod.POST,
       data
     });

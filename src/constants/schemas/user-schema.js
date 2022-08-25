@@ -10,6 +10,7 @@ module.exports = Joi.object({
     .messages({
       'string.empty': ErrorUserMessage.FIRST_NAME_EMPTY,
       'string.pattern.base': ErrorUserMessage.FIRST_NAME_ERR,
+      'any.required': ErrorUserMessage.FIRST_NAME_EMPTY,
     }),
   lastName: Joi.string()
     .pattern(/[^0-9$&+,:;=?@#|'<>.^*()%!]+$/)
@@ -17,6 +18,7 @@ module.exports = Joi.object({
     .messages({
       'string.empty': ErrorUserMessage.LAST_NAME_EMPTY,
       'string.pattern.base': ErrorUserMessage.LAST_NAME_ERR,
+      'any.required': ErrorUserMessage.LAST_NAME_EMPTY,
     }),
   email: Joi.string()
     .email()
@@ -42,6 +44,7 @@ module.exports = Joi.object({
     }),
   avatar: Joi.string()
     .optional()
+    .allow(null)
     .messages({
       'string.base': ErrorUserMessage.AVATAR_ERR,
     })
