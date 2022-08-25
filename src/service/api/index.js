@@ -4,7 +4,7 @@ const {Router} = require(`express`);
 const categories = require(`../api/categories`);
 const articles = require(`../api/articles`);
 const search = require(`../api/search`);
-const user = require(`../api/user`);
+const user = require(`../api/users`);
 
 const sequelize = require(`../lib/sequelize`);
 const defineModels = require(`../models`);
