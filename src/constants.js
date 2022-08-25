@@ -14,12 +14,13 @@ module.exports.FILE_TITLES_PATH = `./data/titles.txt`;
 module.exports.FILE_CATEGORIES_PATH = `./data/announces.txt`;
 module.exports.FILE_ANNOUNCES_PATH = `./data/sentences.txt`;
 module.exports.FILE_COMMENTS_PATH = `./data/comments.txt`;
+module.exports.FILE_SQL_TABLE_FILL = `./utils_for_db/fill_db.sql`;
 
 module.exports.API_PREFIX = `/api`;
 
 module.exports.MAX_ID_LENGTH = 6;
 module.exports.MAX_COMMENTS = 4;
-module.exports.DEFAULT_COUNT = 1;
+module.exports.DEFAULT_COUNT = 5;
 module.exports.RANGE_OF_DAYS = 90;
 module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
 module.exports.DEFAULT_COMMAND = `--help`;
