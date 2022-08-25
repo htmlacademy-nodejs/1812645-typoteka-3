@@ -13,7 +13,7 @@ module.exports.ErrorUserMessage = {
   PASSWORD_EMPTY: `Не указан пароль`,
   PASSWORD_REPEATED_ERR: `Пароли не совпадают`,
   PASSWORD_REPEATED_EMPTY: `Не указан повторный пароль`,
-  AVATAR_ERR: `Ошибка в названии аватара`,
+  AVATAR_ERR: `Изображение не выбрано или тип изображения не поддерживается`,
 };
 
 module.exports.ErrorArticleMessage = {
