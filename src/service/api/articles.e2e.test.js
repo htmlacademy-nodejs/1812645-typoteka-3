@@ -39,6 +39,7 @@ const mockArticles = [
     "categories": [
       `Игры`
     ],
+    "userId": `1`,
     "comments": [
       {
         "data": `2022-07-11T18:07:15.256Z`,
@@ -65,6 +66,7 @@ const mockArticles = [
     "categories": [
       `Журналы`
     ],
+    "userId": `2`,
     "comments": [
       {
         "text": `Совсем немного осталось сделать`,
