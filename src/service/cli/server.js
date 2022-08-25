@@ -1,5 +1,6 @@
 'use strict';
 
+const sequelize = require(`../lib/sequelize`);
 const express = require(`express`);
 const chalk = require(`chalk`);
 const routes = require(`../api`);
@@ -42,7 +43,16 @@ app.use((err, _req, _res, next) => {
 
 module.exports = {
   name: `--server`,
-  run(portNumber) {
+  async run(portNumber) {
+    try {
+      logger.info(`Trying to connect to database...`);
+      await sequelize.authenticate();
+      logger.info(`The connection to the database is established`);
+    } catch (err) {
+      logger.error(`An error occurred: ${err.message}`);
+      return ExitCode.error;
+    }
+
     const port = Number.parseInt(portNumber, 10) || DEFAULT_PORT;
 
     app.listen(port, (err) => {
