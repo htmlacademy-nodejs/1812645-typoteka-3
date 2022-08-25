@@ -15,7 +15,7 @@ module.exports = async (sequelize, {categories, articles, users}) => {
   }), {});
 
   const categoryModels = await Category.bulkCreate(
-    categories.map((item) => ({name: item}))
+      categories.map((item) => ({name: item}))
   );
 
   const categoryIdByName = categoryModels.reduce((acc, next) => ({
