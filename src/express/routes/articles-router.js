@@ -89,11 +89,12 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
 
 // страница публикации
 articlesRouter.get(`/:id`, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
 
   const article = await api.getArticle(id);
 
-  res.render(`article-detail`, {article});
+  res.render(`article-detail`, {user, article});
 });
 
 // создание комментария к публикации

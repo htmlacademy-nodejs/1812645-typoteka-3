@@ -3,11 +3,9 @@ header.header
     img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Типотеки')
     span.logo__name Типотека
 
-  nav.header__nav
-    ul.header__nav-list
-      li.header__list-item
-        a.header__registration(href='/register') Регистрация
-      li.header__list-item
-        a.header__enter(href='/login') Вход с паролем
+    if user
+      include header-user
+    else
+      include header-register
 
   a.header__search.button.button--search(href='/search' aria-label='поиск по сайту')
