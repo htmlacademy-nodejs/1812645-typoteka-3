@@ -71,7 +71,10 @@ body
           li
             a.pagination__button.button.button--forward(class=(page + 1) > totalPages && `button--disabled`)(href=`${prefix}page=${page + 1}` aria-label='Страница вперед') Вперед
 
-  block content
+  .wrapper
+    include ../templates/partials/header
+    block content
+    include ../templates/partials/footer
 
   script(src='/js/vendor.js')
   script(src='/js/main.js')
