@@ -8,11 +8,7 @@ block content
     section.main-page__theme-list
 
       h2.visually-hidden Список тем
-      ul.themes
-        each category in categories
-          li.themes__item
-            a.themes__item-link(href='#') #{category.name}
-              sup #{category.count}
+      include partials/categories-list
 
     .main-page__section-flex
       section.main-page__hot.hot

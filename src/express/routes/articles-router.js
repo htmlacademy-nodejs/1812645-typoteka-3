@@ -123,8 +123,13 @@ articlesRouter.post(`/:id/comments`, upload.single(`avatar`), async (req, res) =
 });
 
 // публикации в определённой категории
-articlesRouter.get(`/category/:id`, (req, res) =>
-  res.render(`article-by-category`)
-);
+articlesRouter.get(`/category/:id`, async (req, res) => {
+  const {user} = req.session;
+  const {id} = req.params;
+
+  const categories = await api.getCategories(true);
+
+  res.render(`article-by-category`, {id, user, categories});
+});
 
 module.exports = articlesRouter;
