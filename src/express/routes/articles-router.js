@@ -15,7 +15,7 @@ const getAddOfferData = () => {
 // страница создания новой публикации
 articlesRouter.get(`/add`, async (req, res) => {
   const categories = await getAddOfferData();
-  res.render(`article-add`, {categories});
+  res.render(`article/article-add`, {categories});
 });
 
 // запрос на создание новой публикации
@@ -40,7 +40,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     const validationMessages = prepareErrors(errors);
     const categories = await getAddOfferData();
 
-    res.render(`article-add`, {articleData, validationMessages, categories});
+    res.render(`article/article-add`, {articleData, validationMessages, categories});
   }
 });
 
@@ -53,7 +53,7 @@ articlesRouter.get(`/edit/:id`, async (req, res) => {
     api.getCategories()
   ]);
 
-  res.render(`article-edit`, {id, article, categories});
+  res.render(`article/article-edit`, {id, article, categories});
 });
 
 // запрос на редактирование публикации
@@ -83,7 +83,7 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
       api.getCategories()
     ]);
 
-    res.render(`article-edit`, {id, article, categories, validationMessages});
+    res.render(`article/article-edit`, {id, article, categories, validationMessages});
   }
 });
 

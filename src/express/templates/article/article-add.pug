@@ -1,32 +1,13 @@
-extends layout.pug
+extends layout-article
 
 block content
-  .wrapper
-    header.header
-      a.header__logo.logo(href='#')
-        img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
-        span.logo__name Типотека
-      button.button.button--colored.header__button-new Новая запись
-      .header__dropdown
-        a.button.button--burger.header__burger(href='#') Открыть меню
-        ul.navigation.header__navigation
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-      a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
-
     main
       section
         .popup.popup--new-publication.popup--anti
           .new-publication
-            form(action=`/articles/edit/${id}` method="post" enctype="multipart/form-data" autocomplete="off")
+            form(action=`/articles/add/` method="post" enctype="multipart/form-data" autocomplete="off")
               .new-publication__header
-                h1 Редактирование публикации
+                h1 Новая публикация
                 .new-publication__date-form
                   h3 Дата публикации
                   .new-publication__date-form-division
@@ -37,35 +18,33 @@ block content
               a.popup__button.button.button--popup-close(aria-label='Закрыть окно')
                 | Закрыть
                 | окно
+
               .new-publication__form.form
                 .form__wrapper.form__wrapper--intro
                   .form__field
                     label
-                      input(type='text' name='title' placeholder='Заголовок' required='' value=article.title)
+                      input(type='text' name='title' value=`${articleData ? articleData.title : 'Заголовок'}` required="")
                   .form__field.form__field--post-image
                     label
-                      input#image-name-field(type='text' name='photo' value=article.picture placeholder='Фотография' readonly='')
+                      input#image-name-field(type='text' name='photo' value=`${articleData ? articleData.picture : 'Фотография'}` readonly='')
                     .form__image-loader.form__image-loader--publication
                       label
                         input.visually-hidden(type='file' name='avatar')
                         | Обзор
-                    button.button.button--transparent Удалить
-
                   .new-publication__category-wrapper
                     each category in categories
                       .new-publication__checkbox.new-publication__checkbox--auto
                         input#checkbox-auto(type='checkbox' name='category-1')
                         label(for='checkbox-auto' value=category.id) #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
-
                 .form__wrapper.form__wrapper--text
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='5' name='announce') #{article.announce}
+                      textarea(rows='5' name='announce')
+                        | #{articleData ? articleData.announce : 'Анонс публикации'}
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='10' name='fulltext') #{article.fulltext}
+                      textarea(rows='10' name='fulltext')
+                        | #{articleData ? articleData.fulltext : 'Полный текст публикации'}
 
-                +insertErrorMessage(validationMessages)
-
-    include partials/footer.pug
+            +insertErrorMessage(validationMessages)
