@@ -16,7 +16,7 @@ module.exports = async (sequelize, {categories, articles, users}) => {
   const categoryIdByName = categoryModels.reduce((acc, next) => ({
     [next.name]: next.id,
     ...acc
-  }), []);
+  }), {});
 
   const articlePromises = articles.map(async (article) => {
     const articleModel = await Article.create(article, {include: [Aliases.COMMENTS]});

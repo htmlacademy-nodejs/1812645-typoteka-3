@@ -33,11 +33,15 @@ class ArticleService {
     return articles.map((item) => item.get());
   }
 
-  findOne(id, needComments) {
-    const include = [Aliases.CATEGORIES];
+  findOne(id, needComments, needCategories) {
+    const include = [];
 
     if (needComments) {
       include.push(Aliases.COMMENTS);
+    }
+
+    if (needCategories) {
+      include.push(Aliases.CATEGORIES);
     }
 
     return this._Article.findByPk(id, {include});
@@ -57,6 +61,19 @@ class ArticleService {
     });
 
     return !!deletedRows;
+  }
+
+  async findPage({limit, offset}) {
+    const {count, rows} = await this._Article.findAndCountAll({
+      limit,
+      offset,
+      include: [Aliases.CATEGORIES],
+      order: [
+        [`createdAt`, `DESC`]
+      ],
+      distinct: true
+    });
+    return {count, articles: rows};
   }
 }
 

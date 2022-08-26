@@ -18,6 +18,10 @@ const define = (sequelize) => User.init({
     allowNull: false,
     unique: true
   },
+  passwordHash: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   avatar: {
     type: DataTypes.STRING,
   }

@@ -15,9 +15,9 @@ myCommentsRouter.get(`/`, async (req, res) => {
 
 // комментарии к публикациям
 myCommentsRouter.get(`/comments`, async (req, res) => {
-  const articles = await api.getArticles();
+  const articles = await api.getArticles({comments: true});
 
-  res.render(`admin-comments`, {articles});
+  res.render(`admin-comments`, {articles: articles.slice(0, 3)});
 });
 
 // категории

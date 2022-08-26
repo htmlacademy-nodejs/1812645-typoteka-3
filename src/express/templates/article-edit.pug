@@ -51,10 +51,10 @@ block content
                     button.button.button--transparent Удалить
 
                   .new-publication__category-wrapper
-                    each category of categories
+                    each category in categories
                       .new-publication__checkbox.new-publication__checkbox--auto
                         input#checkbox-auto(type='checkbox' name='category-1')
-                        label(for='checkbox-auto') #{category}
+                        label(for='checkbox-auto') #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
 
                 .form__wrapper.form__wrapper--text

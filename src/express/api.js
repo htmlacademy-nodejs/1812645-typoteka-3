@@ -36,16 +36,16 @@ class API {
     });
   }
 
-  async getArticles() {
-    return this._load(`/articles`);
+  async getArticles({offset, limit, withComments} = 0) {
+    return this._load(`/articles`, {params: {offset, limit, withComments}});
   }
 
   getArticle(id) {
     return this._load(`/articles/${id}`);
   }
 
-  async getCategories() {
-    return this._load(`/categories`);
+  async getCategories(count) {
+    return this._load(`/categories`, {params: {count}});
   }
 
   search(query) {
