@@ -4,7 +4,7 @@ const express = require(`express`);
 const session = require(`express-session`);
 const path = require(`path`);
 
-const myCommentsRoutes = require(`./routes/admin-router`);
+const adminRoutes = require(`./routes/admin-router`);
 const articlesRoutes = require(`./routes/articles-router`);
 const mainRouter = require(`./routes/main-router`);
 
@@ -50,7 +50,7 @@ app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);
 
 app.use(`/`, mainRouter);
-app.use(`/my`, myCommentsRoutes);
+app.use(`/my`, adminRoutes);
 app.use(`/articles`, articlesRoutes);
 
 app.listen(PORT_FOR_FRONT, () => {
