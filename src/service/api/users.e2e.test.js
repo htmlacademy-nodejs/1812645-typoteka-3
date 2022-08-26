@@ -13,13 +13,13 @@ const {HttpCode} = require(`../../constants`);
 const mockUsers = [
   {
     "email": `ivanov@example.com`,
-    "passwordHash": `5f4dcc3b5aa765d61d8327deb882cf99`,
+    "passwordHash": `$2a$10$UDTTsxNRKhlPAXDCR1flK.y/2PQn/ZnoATbVMla13BwaCy8iSI8m6`,
     "firstName": `Иван`,
     "lastName": `Иванов`,
     "avatar": `avatar1.jpg`
   }, {
     "email": `petrov@example.com`,
-    "passwordHash": `5f4dcc3b5aa765d61d8327deb882cf99`,
+    "passwordHash": `$2a$10$UDTTsxNRKhlPAXDCR1flK.y/2PQn/ZnoATbVMla13BwaCy8iSI8m6`,
     "firstName": `Пётр`,
     "lastName": `Петров`,
     "avatar": `avatar2.jpg`
@@ -162,5 +162,49 @@ describe(`API refuses to create user if data is invalid`, () => {
     const badUserData = {...validUserData, email: `ivanov@example.com`};
 
     await request(app).post(`/user`).send(badUserData).expect(HttpCode.BAD_REQUEST);
+  });
+});
+
+describe(`API authenticate user if data is valid`, () => {
+  const validAuthData = {
+    "email": `ivanov@example.com`,
+    "password": `123456`,
+  };
+
+  let response;
+
+  beforeAll(async () => {
+    const app = await createAPI();
+    response = await request(app).post(`/user/auth`).send(validAuthData);
+  });
+
+  test(`Status code is 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
+
+  test(`User surname is Иванов`, () => expect(response.body.lastName).toBe(`Иванов`));
+});
+
+describe(`API refuses to authenticate user if data is invalid`, () => {
+  let app;
+
+  beforeAll(async () => {
+    app = await createAPI();
+  });
+
+  test(`If email is incorrect status is 401`, async () => {
+    const badAuthData = {
+      "email": `bademail@example.com`,
+      "password": `123456`,
+    };
+
+    await request(app).post(`/user/auth`).send(badAuthData).expect(HttpCode.UNAUTHORIZED);
+  });
+
+  test(`If password doesn't match status is 401`, async () => {
+    const badAuthData = {
+      "email": `ivanov@example.com`,
+      "password": `bad-password`,
+    };
+
+    await request(app).post(`/user/auth`).send(badAuthData).expect(HttpCode.UNAUTHORIZED);
   });
 });
