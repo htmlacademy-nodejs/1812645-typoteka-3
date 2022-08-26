@@ -11,6 +11,8 @@ const mainRouter = new Router();
 
 // главная страница
 mainRouter.get(`/`, async (req, res) => {
+  const {user} = req.session;
+
   const limit = ARTICLES_PER_PAGE;
   let {page = 1} = req.query;
   page = +page;
@@ -23,7 +25,7 @@ mainRouter.get(`/`, async (req, res) => {
 
   const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
 
-  res.render(`main`, {page, totalPages, articles, categories});
+  res.render(`main`, {user, page, totalPages, articles, categories});
 });
 
 // поиск
