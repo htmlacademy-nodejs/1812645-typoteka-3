@@ -1,0 +1,7 @@
+.comments__footer.comments__footer--user
+  form(action=`/articles/${article.id}/comments` method="post" enctype="multipart/form-data" autocomplete="off")
+    .comments__avatar.avatar
+      img(src=`/img/${user.avatar}` alt='аватар пользователя')
+    label
+      textarea(rows='1' name='message' placeholder='Введите свой комментарий')
+    button.comments__button.button.button--colored(type='submit') Опубликовать
