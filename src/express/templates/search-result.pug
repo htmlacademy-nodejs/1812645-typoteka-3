@@ -1,25 +1,6 @@
-extends layout.pug
+extends admin/layout-admin
 
 block content
-  .wrapper-color
-    header.header
-      a.header__logo.logo(href='/')
-        img.logo__image(src='img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
-        span.logo__name Типотека
-      button.button.button--colored.header__button-new Новая запись
-      .header__dropdown
-        a.button.button--burger.header__burger(href='#') Открыть меню
-        ul.navigation.header__navigation
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-      a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
-
     main
       section.search-page
         .search-page__wrapper
@@ -34,9 +15,7 @@ block content
               .search__result
                 p.search-page__empty Ничего не нашлось
             else
-              each result of results
+              each result in results
                 .search__result
                   time.search__date(datetime='2019-03-21T20:33') #{result.createDate}
                   a.search__link #{result.title}
-
-    include partials/footer.pug
