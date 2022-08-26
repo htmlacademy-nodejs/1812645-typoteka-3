@@ -20,6 +20,7 @@ articlesRouter.get(`/add`, async (req, res) => {
 
 // запрос на создание новой публикации
 articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
+  const {user} = req.session;
   const {body, file} = req;
 
   const articleData = {
@@ -29,7 +30,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     fulltext: body.fulltext,
     categories: ensureArray([1, 2]),
     createdAt: body.date ? body.date : new Date(Date.now()),
-    userId: 1,
+    userId: user.id,
   };
 
   try {
@@ -40,7 +41,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     const validationMessages = prepareErrors(errors);
     const categories = await getAddOfferData();
 
-    res.render(`article/article-add`, {articleData, validationMessages, categories});
+    res.render(`article/article-add`, {user, articleData, validationMessages, categories});
   }
 });
 
@@ -58,6 +59,7 @@ articlesRouter.get(`/edit/:id`, async (req, res) => {
 
 // запрос на редактирование публикации
 articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
+  const {user} = req.session;
   const {body, file} = req;
   const {id} = req.params;
 
@@ -68,7 +70,7 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
     fulltext: body.fulltext,
     categories: ensureArray([1, 2]),
     createdAt: body.date ? body.date : new Date(Date.now()),
-    userId: 1,
+    userId: user.id,
   };
 
   try {
@@ -83,7 +85,7 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
       api.getCategories()
     ]);
 
-    res.render(`article/article-edit`, {id, article, categories, validationMessages});
+    res.render(`article/article-edit`, {user, id, article, categories, validationMessages});
   }
 });
 
@@ -99,11 +101,12 @@ articlesRouter.get(`/:id`, async (req, res) => {
 
 // создание комментария к публикации
 articlesRouter.post(`/:id/comments`, upload.single(`avatar`), async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
   const {message} = req.body;
 
   const newComment = {
-    userId: 1,
+    userId: user.id,
     text: message,
   };
 
@@ -115,7 +118,7 @@ articlesRouter.post(`/:id/comments`, upload.single(`avatar`), async (req, res) =
     const validationMessages = prepareErrors(errors);
     const article = await api.getArticle(id);
 
-    res.render(`article-detail`, {article, validationMessages});
+    res.render(`article-detail`, {user, article, validationMessages});
   }
 });
 
