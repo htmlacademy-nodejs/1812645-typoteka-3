@@ -30,6 +30,11 @@ body
       each message in messages
         .server-error=message
 
+  mixin insertErrorMessageForAuth(messages)
+    if messages
+      each message in messages
+        p.form__error-message=message
+
   mixin insertErrorMessageForUser(messages)
     if messages
       .form__validation-error
