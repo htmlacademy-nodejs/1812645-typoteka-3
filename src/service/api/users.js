@@ -2,6 +2,7 @@
 
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../constants`);
+const {ErrorUserMessage} = require(`../../constants/schemas/messages`);
 
 const userValidator = require(`../middlewares/user-validator`);
 const passwordUtils = require(`../lib/password`);
@@ -20,5 +21,25 @@ module.exports = (app, userService) => {
     delete result.passwordHash;
 
     res.status(HttpCode.CREATED).json(result);
+  });
+
+  route.post(`/auth`, async (req, res) => {
+    const {email, password} = req.body;
+
+    const user = await userService.findByEmail(email);
+
+    if (!user) {
+      res.status(HttpCode.UNAUTHORIZED).send(ErrorUserMessage.AUTH_EMAIL);
+      return;
+    }
+
+    const passwordIsCorrect = await passwordUtils.compare(password, user.passwordHash);
+
+    if (passwordIsCorrect) {
+      delete user.passwordHash;
+      res.status(HttpCode.OK).json(user);
+    } else {
+      res.status(HttpCode.UNAUTHORIZED).send(ErrorUserMessage.AUTH_PASSWORD);
+    }
   });
 };

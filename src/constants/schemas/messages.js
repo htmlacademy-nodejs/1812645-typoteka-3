@@ -14,6 +14,8 @@ module.exports.ErrorUserMessage = {
   PASSWORD_REPEATED_ERR: `Пароли не совпадают`,
   PASSWORD_REPEATED_EMPTY: `Не указан повторный пароль`,
   AVATAR_ERR: `Изображение не выбрано или тип изображения не поддерживается`,
+  AUTH_EMAIL: `Электронный адрес не существует`,
+  AUTH_PASSWORD: `Неверный пароль`,
 };
 
 module.exports.ErrorArticleMessage = {
