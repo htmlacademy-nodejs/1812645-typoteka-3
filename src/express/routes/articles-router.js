@@ -50,7 +50,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
 });
 
 // редактирование публикации
-articlesRouter.get(`/edit/:id`, auth, async (req, res) => {
+articlesRouter.get(`/edit/:id`, auth, csrfProtection, async (req, res) => {
   const {id} = req.params;
 
   const [article, categories] = await Promise.all([
@@ -58,11 +58,11 @@ articlesRouter.get(`/edit/:id`, auth, async (req, res) => {
     api.getCategories()
   ]);
 
-  res.render(`article/article-edit`, {id, article, categories});
+  res.render(`article/article-edit`, {id, article, categories, csrfToken: req.csrfToken()});
 });
 
 // запрос на редактирование публикации
-articlesRouter.post(`/edit/:id`, upload.single(`avatar`), async (req, res) => {
+articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {body, file} = req;
   const {id} = req.params;
