@@ -25,7 +25,7 @@ class API {
   }
 
   async createArticle(data) {
-    return this._load(`/articles`, {
+    return this._load(`/articles/add`, {
       method: HttpMethod.POST,
       data
     });
@@ -49,6 +49,7 @@ class API {
   async getCategories(count) {
     return this._load(`/categories`, {params: {count}});
   }
+
 
   createComment({id, data}) {
     return this._load(`/articles/${id}/comments`, {
