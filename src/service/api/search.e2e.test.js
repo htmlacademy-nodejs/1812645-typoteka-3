@@ -25,6 +25,12 @@ const mockUsers = [
   }
 ];
 
+const mockRoles = [
+  `admin`,
+  `reader`,
+  `guest`,
+];
+
 const mockCategories = [
   `Животные`,
   `Журналы`,
@@ -72,7 +78,7 @@ const app = express();
 app.use(express.json());
 
 beforeAll(async () => {
-  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers});
+  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers, roles: mockRoles});
   search(app, new SearchService(mockDB));
 });
 

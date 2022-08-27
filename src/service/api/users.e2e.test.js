@@ -26,6 +26,12 @@ const mockUsers = [
   }
 ];
 
+const mockRoles = [
+  `admin`,
+  `reader`,
+  `guest`,
+];
+
 const mockCategories = [
   `Животные`,
   `Журналы`,
@@ -79,7 +85,7 @@ const mockArticles = [
 
 const createAPI = async () => {
   const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
-  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers});
+  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers, roles: mockRoles});
 
   const app = express();
   app.use(express.json());
@@ -95,6 +101,7 @@ describe(`API creates user if data is valid`, () => {
     "email": `punilin@example.com`,
     "password": `123456`,
     "passwordRepeated": `123456`,
+    "roleId": `2`,
   };
 
   let response;

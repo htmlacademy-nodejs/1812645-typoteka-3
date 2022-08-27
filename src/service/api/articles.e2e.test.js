@@ -25,6 +25,12 @@ const mockUsers = [
   }
 ];
 
+const mockRoles = [
+  `admin`,
+  `reader`,
+  `guest`,
+];
+
 const mockCategories = [
   `Животные`,
   `Журналы`,
@@ -78,7 +84,7 @@ const mockArticles = [
 
 const createAPI = async () => {
   const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
-  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers});
+  await initDB(mockDB, {categories: mockCategories, articles: mockArticles, users: mockUsers, roles: mockRoles});
 
   const app = express();
   app.use(express.json());
