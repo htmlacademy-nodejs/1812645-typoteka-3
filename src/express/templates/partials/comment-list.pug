@@ -4,9 +4,9 @@ if (article.comments.length > 0)
     each comment in article.comments
       li.comments__comment
         .comments__avatar.avatar
-          img(src='/img/avatar-1.png' alt='аватар пользователя')
+          img(src=`/img/${comment.users.avatar}` alt='аватар пользователя')
         .comments__text
           .comments__head
-            p Евгений Петров •
+            p #{comment.users.firstName} #{comment.users.lastName} •
             time.comments__date(datetime='2019-03-21T20:33') #{formatDate(comment.createdAt)}
           p.comments__message #{comment.text}
