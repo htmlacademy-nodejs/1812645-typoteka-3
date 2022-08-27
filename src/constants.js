@@ -5,6 +5,12 @@ module.exports.ExitCode = {
   success: 0,
 };
 
+module.exports.USER_ROLES = {
+  ADMIN: 1,
+  READER: 2,
+  GUEST: 3,
+};
+
 module.exports.PUBLIC_DIR = `public`;
 module.exports.UPLOAD_DIR = `../upload/img/`;
 module.exports.FILE_TYPES = [`image/png`, `image/jpg`, `image/jpeg`];

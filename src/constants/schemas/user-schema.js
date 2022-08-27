@@ -47,5 +47,7 @@ module.exports = Joi.object({
     .allow(null)
     .messages({
       'string.base': ErrorUserMessage.AVATAR_ERR,
-    })
+    }),
+  roleId: Joi.number()
+    .required()
 });

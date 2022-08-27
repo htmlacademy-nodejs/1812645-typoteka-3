@@ -3,9 +3,11 @@ header.header
     img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Типотеки')
     span.logo__name Типотека
 
-    if user
-      include header-user
-    else
-      include header-register
+  if user && user.roleId === 1
+    include header-main-admin
+  else if user && user.roleId === 2
+    include header-user
+  else
+    include header-register
 
   a.header__search.button.button--search(href='/search' aria-label='поиск по сайту')
