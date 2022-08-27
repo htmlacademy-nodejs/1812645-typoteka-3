@@ -26,16 +26,16 @@ const {
 const users = [
   {
     email: `ivanov@example.com`,
-    passwordHash: `5f4dcc3b5aa765d61d8327deb882cf99`,
+    passwordHash: `$2b$10$wD7F14kBnbnEmx8GwBP1b.ZGreHnZ6iuRQR/kEP/Pe87w1WyCuwu6`,
     firstName: `Иван`,
     lastName: `Иванов`,
-    avatar: `avatar1.jpg`
+    avatar: `avatar-1.png`
   }, {
     email: `petrov@example.com`,
-    passwordHash: `5f4dcc3b5aa765d61d8327deb882cf99`,
+    passwordHash: `$2b$10$wD7F14kBnbnEmx8GwBP1b.ZGreHnZ6iuRQR/kEP/Pe87w1WyCuwu6`,
     firstName: `Пётр`,
     lastName: `Петров`,
-    avatar: `avatar2.jpg`
+    avatar: `avatar-2.png`
   }
 ];
 

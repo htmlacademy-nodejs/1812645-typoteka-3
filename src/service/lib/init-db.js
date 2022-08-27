@@ -2,7 +2,6 @@
 
 const defineModels = require(`../models`);
 const Aliases = require(`../models/aliase`);
-const {getRandomInt} = require(`../../utils/utils`);
 
 module.exports = async (sequelize, {categories, articles, users, roles}) => {
   const {Category, Article, User, Role} = defineModels(sequelize);
@@ -11,7 +10,7 @@ module.exports = async (sequelize, {categories, articles, users, roles}) => {
   await Role.bulkCreate(roles.map((item) => ({role: item})));
 
   users.forEach((user, index) => {
-    index === 0 ? user.roleId = 1 : user.roleId = getRandomInt(2, 3);
+    index === 0 ? user.roleId = 1 : user.roleId = 2;
   });
 
   const userModels = await User.bulkCreate(users, {include: [Aliases.ARTICLES, Aliases.COMMENTS]});
