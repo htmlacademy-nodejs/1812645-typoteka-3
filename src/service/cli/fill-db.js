@@ -13,6 +13,7 @@ const {
   FILE_CATEGORIES_PATH,
   FILE_ANNOUNCES_PATH,
   FILE_COMMENTS_PATH,
+  FILE_ROLES_PATH,
 } = require(`../../constants`);
 
 const {
@@ -98,10 +99,11 @@ module.exports = {
     const categories = await readFile(FILE_CATEGORIES_PATH);
     const announces = await readFile(FILE_ANNOUNCES_PATH);
     const comments = await readFile(FILE_COMMENTS_PATH);
+    const roles = await readFile(FILE_ROLES_PATH);
 
     const articles = generateArticles(countArticles, titles, categories, users.length, announces, comments);
 
-    await initDatabase(sequelize, {categories, articles, users});
+    await initDatabase(sequelize, {categories, articles, users, roles});
 
     return ExitCode.success;
   }
