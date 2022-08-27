@@ -2,8 +2,9 @@
 
 const {Router} = require(`express`);
 
-const api = require(`../api`).getAPI();
 const upload = require(`../middlewares/upload`);
+const auth = require(`../middlewares/auth`);
+const api = require(`../api`).getAPI();
 const {ensureArray, prepareErrors} = require(`../../utils/utils`);
 
 const articlesRouter = new Router();
@@ -13,7 +14,7 @@ const getAddOfferData = () => {
 };
 
 // страница создания новой публикации
-articlesRouter.get(`/add`, async (req, res) => {
+articlesRouter.get(`/add`, auth, async (req, res) => {
   const categories = await getAddOfferData();
   res.render(`article/article-add`, {categories});
 });
@@ -46,7 +47,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
 });
 
 // редактирование публикации
-articlesRouter.get(`/edit/:id`, async (req, res) => {
+articlesRouter.get(`/edit/:id`, auth, async (req, res) => {
   const {id} = req.params;
 
   const [article, categories] = await Promise.all([
