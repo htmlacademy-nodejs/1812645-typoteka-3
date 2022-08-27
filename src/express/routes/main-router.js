@@ -2,7 +2,11 @@
 
 const {Router} = require(`express`);
 
-const {ARTICLES_PER_PAGE} = require(`../../constants`);
+const {
+  ARTICLES_PER_PAGE,
+  USER_ROLES
+} = require(`../../constants`);
+
 const upload = require(`../middlewares/upload`);
 const {prepareErrors} = require(`../../utils/utils`);
 const api = require(`../api`).getAPI();
@@ -60,7 +64,8 @@ mainRouter.post(`/register`, upload.single(`avatar`), async (req, res) => {
     lastName: body.surname,
     email: body.email,
     password: body.password,
-    passwordRepeated: body[`repeat-password`]
+    passwordRepeated: body[`repeat-password`],
+    roleId: USER_ROLES.READER,
   };
 
   try {
