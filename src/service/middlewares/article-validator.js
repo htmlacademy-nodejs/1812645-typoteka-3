@@ -8,8 +8,12 @@ module.exports = (req, res, next) => {
   const {error} = schema.validate(newArticle, {abortEarly: false});
 
   if (error) {
-    return res.status(HttpCode.BAD_REQUEST)
-      .send(error.details.map((err) => err.message).join(`\n`));
+    const errorMessage = error.details.reduce((acc, item) => ({
+      [item.path]: item.message,
+      ...acc
+    }), {});
+
+    return res.status(HttpCode.BAD_REQUEST).send(errorMessage);
   }
 
   res.locals.newArticle = newArticle;

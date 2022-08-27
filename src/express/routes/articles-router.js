@@ -6,7 +6,7 @@ const csrf = require(`csurf`);
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
 const api = require(`../api`).getAPI();
-const {ensureArray, prepareErrors} = require(`../../utils/utils`);
+const {ensureArray, prepareErrors, prepareErrorsToObject} = require(`../../utils/utils`);
 
 const articlesRouter = new Router();
 
@@ -45,7 +45,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
     const validationMessages = prepareErrors(errors);
     const categories = await getAddOfferData();
 
-    res.render(`article/article-add`, {user, articleData, validationMessages, categories});
+    res.render(`article/article-add`, {user, articleData, validationMessages, categories, csrfToken: req.csrfToken()});
   }
 });
 
@@ -82,29 +82,29 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async 
 
     res.redirect(`/my`);
   } catch (errors) {
-    const validationMessages = prepareErrors(errors);
+    const validationObject = prepareErrorsToObject(errors);
 
     const [article, categories] = await Promise.all([
       api.getArticle(id),
       api.getCategories()
     ]);
 
-    res.render(`article/article-edit`, {user, id, article, categories, validationMessages});
+    res.render(`article/article-edit`, {user, id, article, categories, validationObject, csrfToken: req.csrfToken()});
   }
 });
 
 // страница публикации
-articlesRouter.get(`/:id`, async (req, res) => {
+articlesRouter.get(`/:id`, csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
 
   const article = await api.getArticle(id);
 
-  res.render(`article-detail`, {user, article});
+  res.render(`article-detail`, {user, article, csrfToken: req.csrfToken()});
 });
 
 // создание комментария к публикации
-articlesRouter.post(`/:id/comments`, upload.single(`avatar`), async (req, res) => {
+articlesRouter.post(`/:id/comments`, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
   const {message} = req.body;
