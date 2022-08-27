@@ -4,6 +4,7 @@ const defineArticle = require(`./article`);
 const defineCategory = require(`./category`);
 const defineComment = require(`./comment`);
 const defineUser = require(`./user`);
+const defineRole = require(`./role`);
 const defineArticleCategory = require(`./article-category`);
 const Aliases = require(`./aliase`);
 
@@ -12,6 +13,7 @@ const define = (sequelize) => {
   const Category = defineCategory(sequelize);
   const Comment = defineComment(sequelize);
   const User = defineUser(sequelize);
+  const Role = defineRole(sequelize);
   const ArticleCategory = defineArticleCategory(sequelize);
 
   Article.hasMany(Comment, {as: Aliases.COMMENTS, foreignKey: `articleId`, onDelete: `cascade`});
@@ -27,7 +29,9 @@ const define = (sequelize) => {
   User.hasMany(Article, {as: Aliases.ARTICLES, foreignKey: `userId`});
   Article.belongsTo(User, {as: Aliases.USERS, foreignKey: `userId`});
 
-  return {Category, Comment, Article, ArticleCategory, User};
+  User.belongsTo(Role, {as: Aliases.ROLES, foreignKey: `roleId`});
+
+  return {Category, Comment, Article, ArticleCategory, User, Role};
 };
 
 module.exports = define;
