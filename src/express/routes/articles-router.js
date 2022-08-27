@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+const csrf = require(`csurf`);
 
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
@@ -9,18 +10,20 @@ const {ensureArray, prepareErrors} = require(`../../utils/utils`);
 
 const articlesRouter = new Router();
 
+const csrfProtection = csrf();
+
 const getAddOfferData = () => {
   return api.getCategories({withCount: false});
 };
 
 // страница создания новой публикации
-articlesRouter.get(`/add`, auth, async (req, res) => {
+articlesRouter.get(`/add`, auth, csrfProtection, async (req, res) => {
   const categories = await getAddOfferData();
-  res.render(`article/article-add`, {categories});
+  res.render(`article/article-add`, {categories, csrfToken: req.csrfToken()});
 });
 
 // запрос на создание новой публикации
-articlesRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
+articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {body, file} = req;
 
