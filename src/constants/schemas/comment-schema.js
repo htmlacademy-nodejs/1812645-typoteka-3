@@ -15,7 +15,7 @@ module.exports = Joi.object({
     .messages({
       'string.min': ErrorCommentMessage.TEXT_MIN,
       'string.max': ErrorCommentMessage.TEXT_MAX,
-      'any.required': ErrorCommentMessage.TEXT_EMPTY,
+      'string.empty': ErrorCommentMessage.TEXT_EMPTY,
     }),
   userId: Joi.number()
     .integer()
