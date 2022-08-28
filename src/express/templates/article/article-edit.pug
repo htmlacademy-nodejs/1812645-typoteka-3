@@ -32,6 +32,7 @@ block content
                       input#image-name-field(type='text' name='photo' value=article.picture placeholder='Фотография' readonly='')
                       if validationObject
                         p.form__error-message #{validationObject.photo}
+
                     .form__image-loader.form__image-loader--publication
                       label
                         input.visually-hidden(type='file' name='avatar')
@@ -57,5 +58,3 @@ block content
                       textarea(rows='10' name='fulltext') #{article.fulltext}
                       if validationObject
                         p.form__error-message #{validationObject.fulltext}
-
-                //+insertErrorMessage(validationMessages)

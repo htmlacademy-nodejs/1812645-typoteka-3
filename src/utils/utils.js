@@ -78,7 +78,12 @@ const printOffers = (arr) => {
 const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.jpg`;
 
 const prepareErrors = (errors) => {
-  return errors.response.data.split(`\n`);
+  let arr = [];
+  for (let value of Object.values(errors.response.data)) {
+    arr.push(value);
+  }
+
+  return arr;
 };
 
 const prepareErrorsObject = (errors) => {

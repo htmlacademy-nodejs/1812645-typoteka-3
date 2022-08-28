@@ -43,9 +43,14 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
     res.redirect(`/my`);
   } catch (errors) {
     const validationMessages = prepareErrors(errors);
+    const validationObject = prepareErrorsToObject(errors);
     const categories = await getAddOfferData();
 
-    res.render(`article/article-add`, {user, articleData, validationMessages, categories, csrfToken: req.csrfToken()});
+    res.render(`article/article-add`, {
+      user, articleData,
+      validationMessages, validationObject, categories,
+      csrfToken: req.csrfToken()
+    });
   }
 });
 
