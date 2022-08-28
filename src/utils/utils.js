@@ -77,7 +77,7 @@ const printOffers = (arr) => {
 
 const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.jpg`;
 
-const prepareErrors = (errors) => {
+const prepareErrorsToArray = (errors) => {
   let arr = [];
   for (let value of Object.values(errors.response.data)) {
     arr.push(value);
@@ -86,7 +86,7 @@ const prepareErrors = (errors) => {
   return arr;
 };
 
-const prepareErrorsObject = (errors) => {
+const prepareErrors = (errors) => {
   return errors.response.data;
 };
 
@@ -102,7 +102,7 @@ module.exports = {
   readFile,
   writeFile,
   getPictureFileName,
+  prepareErrorsToArray,
   prepareErrors,
-  prepareErrorsToObject: prepareErrorsObject,
   ensureArray,
 };

@@ -6,7 +6,7 @@ const csrf = require(`csurf`);
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
 const api = require(`../api`).getAPI();
-const {ensureArray, prepareErrors, prepareErrorsToObject} = require(`../../utils/utils`);
+const {ensureArray, prepareErrors, prepareErrorsToArray} = require(`../../utils/utils`);
 
 const articlesRouter = new Router();
 
@@ -42,8 +42,8 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
 
     res.redirect(`/my`);
   } catch (errors) {
-    const validationMessages = prepareErrors(errors);
-    const validationObject = prepareErrorsToObject(errors);
+    const validationMessages = prepareErrorsToArray(errors);
+    const validationObject = prepareErrors(errors);
     const categories = await getAddOfferData();
 
     res.render(`article/article-add`, {
@@ -87,7 +87,7 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async 
 
     res.redirect(`/my`);
   } catch (errors) {
-    const validationObject = prepareErrorsToObject(errors);
+    const validationObject = prepareErrors(errors);
 
     const [article, categories] = await Promise.all([
       api.getArticle(id),
@@ -127,7 +127,7 @@ articlesRouter.post(`/:id/comments`, upload.single(`avatar`), csrfProtection, as
     const validationMessages = prepareErrors(errors);
     const article = await api.getArticle(id);
 
-    res.render(`article-detail`, {user, article, validationMessages});
+    res.render(`article-detail`, {user, article, validationMessages, csrfToken: req.csrfToken()});
   }
 });
 
