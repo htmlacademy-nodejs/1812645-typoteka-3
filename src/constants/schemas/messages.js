@@ -2,6 +2,18 @@
 
 module.exports.ErrorUserMessage = {
   USER_ID: `Некорректный идентификатор пользователя`,
+  FIRST_NAME_ERR: `Имя содержит некорректные символы`,
+  FIRST_NAME_EMPTY: `Не указано имя`,
+  LAST_NAME_ERR: `Фамилия содержит некорректные символы`,
+  LAST_NAME_EMPTY: `Не указана фамилия`,
+  EMAIL_ERR: `Некорректный электронный адрес`,
+  EMAIL_EXIST: `Электронный адрес уже используется`,
+  EMAIL_EMPTY: `Не указан email`,
+  PASSWORD_ERR: `Пароль содержит меньше 6-ти символов`,
+  PASSWORD_EMPTY: `Не указан пароль`,
+  PASSWORD_REPEATED_ERR: `Пароли не совпадают`,
+  PASSWORD_REPEATED_EMPTY: `Не указан повторный пароль`,
+  AVATAR_ERR: `Изображение не выбрано или тип изображения не поддерживается`,
 };
 
 module.exports.ErrorArticleMessage = {

@@ -10,7 +10,7 @@ module.exports = (articleService, commentService) => async (req, res, next) => {
     return res.status(HttpCode.NOT_FOUND).send(`Article with id: ${articleId} not found!!`);
   }
 
-  const comment = await commentService.findOne(commentId);
+  const comment = await commentService.findOne(articleId, commentId);
   if (!comment) {
     return res.status(HttpCode.NOT_FOUND).send(`Comment with id: ${commentId} for article with id: ${articleId} not found!!`);
   }
