@@ -21,11 +21,18 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-  logger.debug(`Request on route ${req.url}`);
+  logger.debug(`* Request on route:${req.url} *Request method:${req.method}`);
 
   res.on(`finish`, () => {
     logger.info(`Response status code: ${res.statusCode}`);
   });
+  next();
+});
+
+app.use(function (req, res, next) {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Methods`, `GET, PUT, POST, DELETE`);
+  res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept, Authorization`);
   next();
 });
 

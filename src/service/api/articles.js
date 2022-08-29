@@ -56,6 +56,7 @@ module.exports = (app, articleService, commentService) => {
 
     const delArticle = await articleService.delete(article.id);
 
+    res.header(`Access-Control-Allow-Methods`, `GET, PUT, POST, DELETE`);
     return res.status(HttpCode.OK).json(delArticle);
   });
 
