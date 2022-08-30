@@ -16,5 +16,5 @@ block content
           li.notes__list-item
             time.notes__item-time(datetime='2019-03-21T20:33') #{formatDate(article.createdAt)}
             a.notes__item-text(href=`/articles/edit/${article.id}`) #{article.title}
-            button.notes__button.button.button--close-item(type='button' name="del" data=`http://localhost:8000/api/articles/${article.id}`)
+            button.notes__button.button.button--close-item.delete__button(type='button' name="notes" data=`/my/${article.id}`)
               span.visually-hidden Закрыть строку списка

@@ -22,16 +22,20 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.get(`/`, async (req, res) => {
-    const {offset, limit, withComments} = req.query;
-    let result;
+    const {userId, offset, limit, withComments} = req.query;
 
-    if (limit || offset) {
-      result = await articleService.findPage({limit, offset, withComments});
-    } else {
-      result = await articleService.findAll({withComments});
+    let articles = {};
+
+    if (userId) {
+      articles = await articleService.findAll({userId, withComments});
+      return res.status(HttpCode.OK).json(articles);
     }
 
-    res.status(HttpCode.OK).json(result);
+    if (limit || offset) {
+      articles = await articleService.findPage({limit, offset, withComments});
+    }
+
+    return res.status(HttpCode.OK).json(articles);
   });
 
   router.get(`/:articleId`, articleExists(articleService), async (req, res) => {
@@ -56,7 +60,6 @@ module.exports = (app, articleService, commentService) => {
 
     const delArticle = await articleService.delete(article.id);
 
-    res.header(`Access-Control-Allow-Methods`, `GET, PUT, POST, DELETE`);
     return res.status(HttpCode.OK).json(delArticle);
   });
 

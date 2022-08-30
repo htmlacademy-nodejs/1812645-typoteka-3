@@ -9,34 +9,25 @@
   const Message = {
     '200': 'Операция успешно выполнена',
     '403': 'У вас нет доступа к этой операции',
-    '404': 'Объект не найден'
+    '404': 'Объект не найден',
+    '400': 'Удаление невозможно.',
   };
 
-  const createMessageElement = (type, content) => {
-    const ElementClass = {
-      SUCCESS: 'client-error__success',
-      ERROR: 'client-error__fail'
-    };
-
+  const createMessageElement = (errorMsg, element) => {
+    const card = element.closest('li');
     const errorElement = document.createElement('div');
-    errorElement.classList.add('client-error', ElementClass[type]);
-    errorElement.textContent = content;
-    document.body.prepend(errorElement);
+    errorElement.classList.add('comments__error');
+    errorElement.textContent = Message[errorMsg];
+    card.after(errorElement);
 
     setTimeout(() => {
       errorElement.remove();
-    }, 5000);
+    }, 4000);
   };
 
   const onSuccess = (element) => {
-    const card = element.closest('.notes__list-item');
+    const card = element.closest('li');
     card.parentNode.removeChild(card);
-
-    createMessageElement(Type.SUCCESS, Message['200']);
-  };
-
-  const onError = (error) => {
-    createMessageElement(Type.ERROR, Message[error]);
   };
 
   const deleteObjectHandler = (evt) => {
@@ -50,16 +41,18 @@
       .then((response) => {
         if (response.ok) {
           onSuccess(evt.target);
+          createMessageElement(response.ok, evt.target);
         }
 
         throw new Error(response.status);
       })
       .catch((err) => {
-        onError(err.message);
+        createMessageElement(err.message, evt.target);
       })
   };
 
-  const deleteArticleElements = document.querySelectorAll(`.notes__button`);
+  const deleteArticleElements = document.querySelectorAll(`.delete__button`);
+  // const deleteCategoryElements = document.querySelectorAll(`.category__button`);
 
   const deleteObjectElements = [...deleteArticleElements];
 

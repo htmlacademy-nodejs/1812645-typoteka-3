@@ -17,7 +17,7 @@ class ArticleService {
     return article.get();
   }
 
-  async findAll(withComments) {
+  async findAll(userId, withComments) {
     const include = [
       Aliases.CATEGORIES,
       {
@@ -136,7 +136,8 @@ class ArticleService {
 
     let articles;
     if (withComments) {
-      articles = rows.filter((article) => article.comments.length > 0);
+      // articles = rows.filter((article) => article.comments.length > 0);  // временно, отладка
+      articles = rows.map((article) => article.get());
     }
 
     return {count, articles};

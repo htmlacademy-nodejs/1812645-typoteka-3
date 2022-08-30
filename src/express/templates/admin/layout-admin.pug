@@ -10,7 +10,11 @@ head
   link(rel='preload' href='/fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
   link(rel='stylesheet' href='/css/style.min.css')
 
-  body
+body
+  mixin insertErrorMessageForComments(messages)
+    if messages
+      each message in messages
+        p.comments__error=message
 
   .wrapper.wrapper--nobackground
     include header-admin
