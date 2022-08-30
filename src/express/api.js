@@ -25,7 +25,7 @@ class API {
   }
 
   async createArticle(data) {
-    return this._load(`/articles`, {
+    return this._load(`/articles/add`, {
       method: HttpMethod.POST,
       data
     });
