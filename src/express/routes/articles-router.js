@@ -19,20 +19,23 @@ const getAddOfferData = () => {
 // страница создания новой публикации
 articlesRouter.get(`/add`, auth, csrfProtection, async (req, res) => {
   const categories = await getAddOfferData();
-  res.render(`article/article-add`, {categories, csrfToken: req.csrfToken()});
+  const current = undefined;
+
+  res.render(`article/article-add`, {categories, csrfToken: req.csrfToken(), current});
 });
 
 // запрос на создание новой публикации
 articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {body, file} = req;
+  let current = ensureArray(body.categories);
 
   const articleData = {
     picture: file ? file.filename : null,
     title: body.title,
     announce: body.announce,
     fulltext: body.fulltext,
-    categories: ensureArray([1, 2]),
+    categories: current,
     createdAt: body.date ? body.date : new Date(Date.now()),
     userId: user.id,
   };
@@ -48,7 +51,7 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
 
     res.render(`article/article-add`, {
       user, articleData,
-      validationMessages, validationObject, categories,
+      validationMessages, validationObject, categories, current,
       csrfToken: req.csrfToken()
     });
   }

@@ -40,11 +40,14 @@ module.exports = Joi.object({
         Joi.number()
           .integer()
           .positive()
+          .required()
           .messages({
             'number.base': ErrorCategoriesMessage.CATEGORIES_ERR,
+            'any.required': ErrorCategoriesMessage.CATEGORIES_EMPTY,
           })
     ).min(1).required().messages({
       'any.required': ErrorCategoriesMessage.CATEGORIES_EMPTY,
+      'array.includesRequiredUnknowns': ErrorCategoriesMessage.CATEGORIES_EMPTY,
     }),
   picture: Joi.string()
     .allow(null)

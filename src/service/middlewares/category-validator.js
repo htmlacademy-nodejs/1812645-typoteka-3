@@ -9,14 +9,14 @@ const schema = Joi.object({
   name: Joi.string()
   .min(5)
   .max(30)
-    .required()
-    .messages({
-      'string.min': ErrorCategoriesMessage.NAME_MIN,
-      'string.max': ErrorCategoriesMessage.NAME_MAX,
-      'string.empty': ErrorCategoriesMessage.CATEGORIES_EMPTY,
-      'string.base': ErrorCategoriesMessage.CATEGORIES_ERR,
-      'any.required': ErrorCategoriesMessage.CATEGORIES_REQUIRED,
-    }),
+  .required()
+  .messages({
+    'string.min': ErrorCategoriesMessage.NAME_MIN,
+    'string.max': ErrorCategoriesMessage.NAME_MAX,
+    'string.empty': ErrorCategoriesMessage.CATEGORIES_EMPTY,
+    'string.base': ErrorCategoriesMessage.CATEGORIES_ERR,
+    'any.required': ErrorCategoriesMessage.CATEGORIES_REQUIRED,
+  }),
 });
 
 module.exports = (req, res, next) => {

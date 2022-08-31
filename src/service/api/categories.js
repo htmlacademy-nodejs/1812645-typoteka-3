@@ -2,7 +2,7 @@
 
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../constants`);
-const categoryValidator = require(`../middlewares/categoryValidator`);
+const categoryValidator = require(`../middlewares/category-validator`);
 
 const router = new Router();
 
@@ -41,8 +41,7 @@ module.exports = (app, categoryService) => {
 
     const categoryArticlesCount = categories.find((item) => item.id === +categoryId).count;
 
-    // TODO ! чтобы была возможность удалять Категории - условие true
-    if (!categoryArticlesCount) {
+    if (+categoryArticlesCount) {
       return res.status(HttpCode.BAD_REQUEST).send(false);
     } else {
       const delCategory = await categoryService.delete(categoryId);

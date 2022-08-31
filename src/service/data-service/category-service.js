@@ -15,7 +15,6 @@ class CategoryService {
     return category.get();
   }
 
-  // TODO в count всегда остается 1, хотя нет публикаций, относящихся к этой категории
   async findAll(needCount) {
     if (needCount) {
       const result = await this._Category.findAll({
@@ -25,7 +24,7 @@ class CategoryService {
           [
             Sequelize.fn(
                 `COUNT`,
-                `*`
+                Sequelize.col(`articleCategory.CategoryId`),
             ),
             `count`
           ]

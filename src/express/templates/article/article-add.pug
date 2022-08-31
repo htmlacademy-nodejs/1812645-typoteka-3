@@ -15,7 +15,7 @@ block content
                     .new-publication__date-block
                       label(for='new-publication-date' aria-label='Календарь')
                       input#new-publication-date(type='text' name='date' placeholder='2019-03-21')
-                button.new-publication__button.button.button--colored(type='submit') Опубликовать
+                button.new-publication__button.button.button--colored(type='submit' onclick='getCheckedCategories("category", "selectedCategories");') Опубликовать
               a.popup__button.button.button--popup-close(aria-label='Закрыть окно')
                 | Закрыть
                 | окно
@@ -38,13 +38,14 @@ block content
                       label
                         input.visually-hidden(type='file' name='avatar')
                         | Обзор
-
                   .new-publication__category-wrapper
+                    input.visually-hidden(name="selectedCategories" type="hidden" value="")
                     each category in categories
-                      .new-publication__checkbox.new-publication__checkbox--auto
-                        input#checkbox-auto(type='checkbox' name='category-1')
-                        label(for='checkbox-auto' value=category.id) #{category.name}
-                    a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
+                      input#checkboxAuto(type="checkbox" name="categories" value=category.id checked=current && current.includes(String(category.id)))
+                      label(for='checkboxAuto') #{category.name}
+                    a.new-publication__form-link.button.button--transparent(href='/my/categories') Добавить категорию
+                    if validationObject
+                      p.form__error-message #{validationObject.categories}
 
                 .form__wrapper.form__wrapper--text
                   .form__field.form__field--publication-text
