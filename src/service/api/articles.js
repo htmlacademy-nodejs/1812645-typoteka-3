@@ -66,7 +66,7 @@ module.exports = (app, articleService, commentService) => {
   router.get(`/:articleId/comments`, [routeParamsValidator, articleExists(articleService)], async (req, res) => {
     const {articleId} = req.params;
 
-    const comments = await commentService.findAll(articleId);
+    const comments = await commentService.findAllForArticle(articleId);
 
     return res.status(HttpCode.OK).json(comments);
   });

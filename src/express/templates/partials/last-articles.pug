@@ -1,0 +1,7 @@
+if articles.length > 0
+  each article in articles
+    li.hot__list-item
+      a.hot__list-link(href=`/articles/${article.id}`) #{article.announce}
+        sup.hot__link-sup #{article.comments.length}
+else
+  p.last__empty Здесь пока ничего нет...

@@ -34,7 +34,8 @@ adminRouter.delete(`/:id`, auth, async (req, res) => {
 
 // комментарии к публикациям
 adminRouter.get(`/comments`, auth, async (req, res) => {
-  const articles = await api.getArticles({withComments: true});
+  const {user} = req.session;
+  const articles = await api.getArticles({userId: user.id, withComments: true});
 
   res.render(`admin/admin-comments`, {articles: articles.slice(0, 3)});
 });
@@ -46,6 +47,7 @@ adminRouter.get(`/categories`, auth, async (req, res) => {
   res.render(`admin/admin-categories`, {categories});
 });
 
+// создание категории
 adminRouter.post(`/categories`, auth, async (req, res) => {
   const {user} = req.session;
   const {addCategoryName} = req.body;
@@ -65,6 +67,7 @@ adminRouter.post(`/categories`, auth, async (req, res) => {
   }
 });
 
+// редактирование категории
 adminRouter.post(`/categories/:id`, auth, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
@@ -85,6 +88,7 @@ adminRouter.post(`/categories/:id`, auth, async (req, res) => {
   }
 });
 
+// удаление категории
 adminRouter.delete(`/categories/:id`, auth, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;

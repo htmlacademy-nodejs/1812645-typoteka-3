@@ -4,7 +4,9 @@ const {Router} = require(`express`);
 
 const {
   ARTICLES_PER_PAGE,
-  USER_ROLES
+  USER_ROLES,
+  MAX_COMMENTS,
+  MAX_NUMBER_OF_ELEMENTS,
 } = require(`../../constants`);
 
 const upload = require(`../middlewares/upload`);
@@ -22,14 +24,19 @@ mainRouter.get(`/`, async (req, res) => {
   page = +page;
   const offset = (page - 1) * ARTICLES_PER_PAGE;
 
-  const [{count, articles}, categories] = await Promise.all([
+  const [{count, articles}, categories, commentsAll] = await Promise.all([
     api.getArticles({offset, limit, withComments: true}),
     api.getCategories(true),
+    api.getComments(),
   ]);
 
+  const comments = commentsAll.slice(0, MAX_COMMENTS);
+  comments.forEach((item) => {
+    item.text = item.text.substring(0, MAX_NUMBER_OF_ELEMENTS) + `...`;
+  });
   const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
 
-  res.render(`main`, {user, page, totalPages, articles, categories});
+  res.render(`main`, {user, page, totalPages, articles, categories, comments});
 });
 
 // поиск

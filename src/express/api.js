@@ -46,6 +46,13 @@ class API {
     });
   }
 
+  deleteArticle({id, userId}) {
+    return this._load(`/articles/${id}`, {
+      method: HttpMethod.DELETE,
+      data: {userId}
+    });
+  }
+
   async getCategories(count) {
     return this._load(`/categories`, {params: {count}});
   }
@@ -78,6 +85,10 @@ class API {
     });
   }
 
+  getComments() {
+    return this._load(`/comments`);
+  }
+
   createUser({data}) {
     return this._load(`/user`, {
       method: HttpMethod.POST,
@@ -94,13 +105,6 @@ class API {
 
   search(query) {
     return this._load(`/search`, {params: {query}});
-  }
-
-  deleteArticle({id, userId}) {
-    return this._load(`/articles/${id}`, {
-      method: HttpMethod.DELETE,
-      data: {userId}
-    });
   }
 }
 
