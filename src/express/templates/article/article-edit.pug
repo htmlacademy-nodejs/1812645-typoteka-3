@@ -23,13 +23,13 @@ block content
                 .form__wrapper.form__wrapper--intro
                   .form__field
                     label
-                      input(type='text' name='title' placeholder='Заголовок' required='' value=article.title)
+                      input(type='text' name='title' placeholder='Заголовок' required='' value=articleData.title)
                       if validationObject
                         p.form__error-message #{validationObject.title}
 
                   .form__field.form__field--post-image
                     label
-                      input#image-name-field(type='text' name='photo' value=article.picture placeholder='Фотография' readonly='')
+                      input#image-name-field(type='text' name='photo' value=articleData.picture placeholder='Фотография' readonly='')
                       if validationObject
                         p.form__error-message #{validationObject.photo}
 
@@ -41,20 +41,23 @@ block content
 
                   .new-publication__category-wrapper
                     each category in categories
-                      .new-publication__checkbox.new-publication__checkbox--auto
-                        input#checkbox-auto(type='checkbox' name='category-1')
+                        input#checkbox-auto(type='checkbox' name='categories' value=category.id checked=currentCategories.includes(category.id))
                         label(for='checkbox-auto' value=category.id) #{category.name}
-                    a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
+                    a.new-publication__form-link.button.button--transparent(href='/my/categories') Добавить категорию
+                    if validationObject
+                      p.form__error-message #{validationObject.categories}
 
                 .form__wrapper.form__wrapper--text
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='5' name='announce') #{article.announce}
+                      textarea(rows='5' name='announce') #{articleData.announce}
                       if validationObject
                         p.form__error-message #{validationObject.announce}
 
                   .form__field.form__field--publication-text
                     label
-                      textarea(rows='10' name='fulltext') #{article.fulltext}
+                      textarea(rows='10' name='fulltext') #{articleData.fulltext}
                       if validationObject
                         p.form__error-message #{validationObject.fulltext}
+
+            +insertErrorMessage(validationMessages)

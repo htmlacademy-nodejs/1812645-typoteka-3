@@ -25,17 +25,17 @@ articlesRouter.get(`/add`, auth, csrfProtection, async (req, res) => {
 });
 
 // запрос на создание новой публикации
-articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req, res) => {
+articlesRouter.post(`/add`, auth, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {body, file} = req;
-  let current = ensureArray(body.categories);
+  let currentCategories = ensureArray(body.categories);
 
   const articleData = {
     picture: file ? file.filename : null,
     title: body.title,
     announce: body.announce,
     fulltext: body.fulltext,
-    categories: current,
+    categories: currentCategories,
     createdAt: body.date ? body.date : new Date(Date.now()),
     userId: user.id,
   };
@@ -50,8 +50,8 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
     const categories = await getAddOfferData();
 
     res.render(`article/article-add`, {
-      user, articleData,
-      validationMessages, validationObject, categories, current,
+      user, articleData, categories, currentCategories,
+      validationMessages, validationObject,
       csrfToken: req.csrfToken()
     });
   }
@@ -59,28 +59,35 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
 
 // редактирование публикации
 articlesRouter.get(`/edit/:id`, auth, csrfProtection, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
 
-  const [article, categories] = await Promise.all([
+  const [articleData, categories] = await Promise.all([
     api.getArticle(id),
     api.getCategories()
   ]);
 
-  res.render(`article/article-edit`, {id, article, categories, csrfToken: req.csrfToken()});
+  const currentCategories = articleData.categories.map((item) => item.id);
+
+  res.render(`article/article-edit`, {
+    id, user, articleData, categories, currentCategories,
+    csrfToken: req.csrfToken(),
+  });
 });
 
 // запрос на редактирование публикации
-articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async (req, res) => {
+articlesRouter.post(`/edit/:id`, auth, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
-  const {body, file} = req;
   const {id} = req.params;
+  const {body, file} = req;
+  let currentCategories = ensureArray(body.categories);
 
   const articleData = {
     picture: file ? file.filename : null,
     title: body.title,
     announce: body.announce,
     fulltext: body.fulltext,
-    categories: ensureArray([1, 2]),
+    categories: currentCategories,
     createdAt: body.date ? body.date : new Date(Date.now()),
     userId: user.id,
   };
@@ -92,17 +99,18 @@ articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async 
   } catch (errors) {
     const validationObject = prepareErrors(errors);
 
-    const [article, categories] = await Promise.all([
-      api.getArticle(id),
-      api.getCategories()
-    ]);
+    const categories = await api.getCategories();
 
-    res.render(`article/article-edit`, {user, id, article, categories, validationObject, csrfToken: req.csrfToken()});
+    res.render(`article/article-edit`, {
+      id, user, validationObject,
+      articleData, categories, currentCategories,
+      csrfToken: req.csrfToken(),
+    });
   }
 });
 
 // страница публикации
-articlesRouter.get(`/:id`, csrfProtection, async (req, res) => {
+articlesRouter.get(`/:id`, auth, csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
 

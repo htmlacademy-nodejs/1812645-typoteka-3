@@ -38,11 +38,12 @@ block content
                       label
                         input.visually-hidden(type='file' name='avatar')
                         | Обзор
+
                   .new-publication__category-wrapper
                     input.visually-hidden(name="selectedCategories" type="hidden" value="")
                     each category in categories
-                      input#checkboxAuto(type="checkbox" name="categories" value=category.id checked=current && current.includes(String(category.id)))
-                      label(for='checkboxAuto') #{category.name}
+                        input#checkboxAuto(type="checkbox" name="categories" value=category.id checked=currentCategories && currentCategories.includes(String(category.id)))
+                        label(for='checkboxAuto') #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='/my/categories') Добавить категорию
                     if validationObject
                       p.form__error-message #{validationObject.categories}
