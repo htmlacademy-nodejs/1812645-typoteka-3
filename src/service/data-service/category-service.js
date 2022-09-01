@@ -42,6 +42,14 @@ class CategoryService {
     }
   }
 
+  async findOne(categoryId) {
+    return await this._Category.findOne({
+      where: {
+        id: categoryId,
+      }
+    });
+  }
+
   async update(id, newCategory) {
     const [affectedRows] = await this._Category.update(newCategory, {
       where: {id}

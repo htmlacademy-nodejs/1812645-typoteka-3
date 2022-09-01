@@ -63,6 +63,16 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).json(delArticle);
   });
 
+  // Публикации в категории
+  router.get(`/category/:categoryId`, async (req, res) => {
+    const {categoryId} = req.params;
+    const {offset, limit} = req.query;
+
+    const articles = await articleService.findPageArticlesByCategory({categoryId, offset, limit});
+
+    return res.status(HttpCode.OK).json(articles);
+  });
+
   // Комментарии к публикации
   router.get(`/:articleId/comments`, [routeParamsValidator, articleExists(articleService)], async (req, res) => {
     const {articleId} = req.params;

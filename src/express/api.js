@@ -35,6 +35,10 @@ class API {
     return this._load(`/articles`, {params: {userId, offset, limit, withComments}});
   }
 
+  async getArticlesByCategory({id, offset, limit}) {
+    return this._load(`/articles/category/${id}`, {params: {offset, limit}});
+  }
+
   getArticle(id) {
     return this._load(`/articles/${id}`);
   }
@@ -53,8 +57,13 @@ class API {
     });
   }
 
+  // категории
   async getCategories(count) {
     return this._load(`/categories`, {params: {count}});
+  }
+
+  async getCategory(id) {
+    return this._load(`/categories/${id}`);
   }
 
   createCategory(data) {
@@ -78,6 +87,7 @@ class API {
     });
   }
 
+  // комментарии
   createComment({id, data}) {
     return this._load(`/articles/${id}/comments`, {
       method: HttpMethod.POST,
@@ -95,6 +105,7 @@ class API {
     });
   }
 
+  // user
   createUser({data}) {
     return this._load(`/user`, {
       method: HttpMethod.POST,

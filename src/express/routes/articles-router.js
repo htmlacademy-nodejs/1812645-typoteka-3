@@ -2,11 +2,14 @@
 
 const {Router} = require(`express`);
 const csrf = require(`csurf`);
+const api = require(`../api`).getAPI();
 
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
-const api = require(`../api`).getAPI();
 const {ensureArray, prepareErrors, prepareErrorsToArray} = require(`../../utils/utils`);
+const {
+  ARTICLES_BY_CATEGORY_PER_PAGE,
+} = require(`../../constants`);
 
 const articlesRouter = new Router();
 
@@ -147,9 +150,21 @@ articlesRouter.get(`/category/:id`, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
 
-  const categories = await api.getCategories(true);
+  const limit = ARTICLES_BY_CATEGORY_PER_PAGE;
+  let {page = 1} = req.query;
+  page = +page;
+  const offset = (page - 1) * ARTICLES_BY_CATEGORY_PER_PAGE;
 
-  res.render(`article-by-category`, {id, user, categories});
+  const {count, articles} = await api.getArticlesByCategory({id, offset, limit});
+  const categories = await api.getCategories(true);
+  const category = await api.getCategory(id);
+
+  const totalPages = Math.ceil(count / ARTICLES_BY_CATEGORY_PER_PAGE);
+
+  res.render(`article-by-category`, {
+    id, user, page, totalPages,
+    category, categories, articles
+  });
 });
 
 module.exports = articlesRouter;

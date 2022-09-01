@@ -25,6 +25,14 @@ module.exports = (app, categoryService) => {
     res.status(HttpCode.OK).json(categories);
   });
 
+  router.get(`/:categoryId`, async (req, res) => {
+    const {categoryId} = req.params;
+
+    const category = await categoryService.findOne(categoryId);
+
+    res.status(HttpCode.OK).json(category);
+  });
+
   router.put(`/:categoryId`, categoryValidator, async (req, res) => {
     const {categoryId} = req.params;
     const {newCategory} = res.locals;

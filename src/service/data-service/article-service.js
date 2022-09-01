@@ -5,9 +5,9 @@ const Aliases = require(`../models/aliase`);
 class ArticleService {
   constructor(sequelize) {
     this._Article = sequelize.models.Article;
-    this._Category = sequelize.models.Category;
     this._Comment = sequelize.models.Comment;
     this._User = sequelize.models.User;
+    this._ArticleCategory = sequelize.models.ArticleCategory;
   }
 
   async create(articleData) {
@@ -141,6 +141,36 @@ class ArticleService {
     }
 
     return {count, articles};
+  }
+
+  async findPageArticlesByCategory({categoryId, offset, limit}) {
+    const articlesIdByCategory = await this._ArticleCategory.findAll({
+      attributes: [`ArticleId`],
+      where: {
+        CategoryId: categoryId
+      },
+      raw: true
+    });
+
+    const articlesId = articlesIdByCategory.map((item) => item.ArticleId);
+
+    const {count, rows} = await this._Article.findAndCountAll({
+      limit,
+      offset,
+      include: [
+        Aliases.CATEGORIES,
+        Aliases.COMMENTS,
+      ],
+      order: [
+        [`createdAt`, `DESC`]
+      ],
+      where: {
+        id: articlesId
+      },
+      distinct: true
+    });
+
+    return {count, articles: rows};
   }
 }
 

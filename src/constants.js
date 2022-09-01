@@ -26,6 +26,7 @@ module.exports.FILE_SQL_TABLE_FILL = `./utils_for_db/fill_db.sql`;
 module.exports.MAX_COMMENTS = 4;
 module.exports.MAX_ARTICLES = 4;
 module.exports.ARTICLES_PER_PAGE = 4;
+module.exports.ARTICLES_BY_CATEGORY_PER_PAGE = 4;
 
 module.exports.MAX_ID_LENGTH = 6;
 module.exports.DEFAULT_COUNT = 5;
