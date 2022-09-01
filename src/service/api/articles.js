@@ -63,6 +63,7 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).json(delArticle);
   });
 
+  // Комментарии к публикации
   router.get(`/:articleId/comments`, [routeParamsValidator, articleExists(articleService)], async (req, res) => {
     const {articleId} = req.params;
 

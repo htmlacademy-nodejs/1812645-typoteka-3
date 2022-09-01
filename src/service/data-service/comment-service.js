@@ -5,6 +5,7 @@ const Aliases = require(`../models/aliase`);
 class CommentService {
   constructor(sequelize) {
     this._Comment = sequelize.models.Comment;
+    this._Article = sequelize.models.Article;
     this._User = sequelize.models.User;
   }
 
@@ -19,8 +20,21 @@ class CommentService {
 
   async findAll() {
     const include = [
-      Aliases.USERS
+      {
+        model: this._User,
+        as: Aliases.USERS,
+        attributes: {
+          exclude: [`passwordHash`, `roleId`, `createdAt`, `updatedAt`]
+        }
+      }
     ];
+
+    include.push({
+      model: this._Article,
+      attributes: [
+        `title`
+      ],
+    });
 
     let comments = await this._Comment.findAll({
       include,

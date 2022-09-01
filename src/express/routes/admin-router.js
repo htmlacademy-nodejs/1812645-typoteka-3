@@ -34,10 +34,22 @@ adminRouter.delete(`/:id`, auth, async (req, res) => {
 
 // комментарии к публикациям
 adminRouter.get(`/comments`, auth, async (req, res) => {
-  const {user} = req.session;
-  const articles = await api.getArticles({userId: user.id, withComments: true});
+  const comments = await api.getComments();
 
-  res.render(`admin/admin-comments`, {articles: articles.slice(0, 3)});
+  res.render(`admin/admin-comments`, {comments});
+});
+
+adminRouter.delete(`/:articleId/comments/:commentId`, auth, async (req, res) => {
+  const {articleId, commentId} = req.params;
+
+  try {
+    const result = await api.deleteComments(articleId, commentId);
+
+    res.status(HttpCode.OK).send(result);
+  } catch (error) {
+
+    res.status(HttpCode.BAD_REQUEST).send(error.response.statusText);
+  }
 });
 
 // категории
