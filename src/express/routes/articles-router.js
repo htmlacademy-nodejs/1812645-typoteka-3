@@ -83,7 +83,7 @@ articlesRouter.post(`/edit/:id`, auth, upload.single(`avatar`), csrfProtection, 
   const {user} = req.session;
   const {id} = req.params;
   const {body, file} = req;
-  let currentCategories = ensureArray(body.categories);
+  const currentCategories = ensureArray(body.categories).map((item) => +item);
 
   const articleData = {
     picture: file ? file.filename : null,
