@@ -34,6 +34,7 @@ mainRouter.get(`/`, async (req, res) => {
   comments.forEach((item) => {
     item.text = item.text.substring(0, MAX_NUMBER_OF_ELEMENTS) + `...`;
   });
+
   const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
 
   res.render(`main`, {user, page, totalPages, articles, categories, comments});

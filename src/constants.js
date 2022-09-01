@@ -23,24 +23,23 @@ module.exports.FILE_COMMENTS_PATH = `./data/comments.txt`;
 module.exports.FILE_ROLES_PATH = `./data/roles.txt`;
 module.exports.FILE_SQL_TABLE_FILL = `./utils_for_db/fill_db.sql`;
 
-module.exports.API_PREFIX = `/api`;
+module.exports.MAX_COMMENTS = 4;
+module.exports.MAX_ARTICLES = 4;
+module.exports.ARTICLES_PER_PAGE = 4;
 
 module.exports.MAX_ID_LENGTH = 6;
-module.exports.MAX_COMMENTS = 4;
 module.exports.DEFAULT_COUNT = 5;
 module.exports.RANGE_OF_DAYS = 90;
 module.exports.MAX_NUMBER_OF_ELEMENTS = 1000;
 module.exports.DEFAULT_COMMAND = `--help`;
 module.exports.USER_ARGV_INDEX = 2;
-
-module.exports.ARTICLES_PER_PAGE = 8;
-
 module.exports.DEFAULT_PORT = 8000;
-module.exports.TIMEOUT = 1000;
 module.exports.PORT_FOR_FRONT = 8080;
 
+module.exports.TIMEOUT = 1000;
 module.exports.PAGE_NOT_FOUND = `Страница не найдена`;
 module.exports.INTERNAL_SERVER_ERROR = `Внутренняя ошибка сервера`;
+module.exports.API_PREFIX = `/api`;
 
 module.exports.HttpCode = {
   OK: 200,

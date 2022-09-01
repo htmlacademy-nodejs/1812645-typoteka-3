@@ -10,6 +10,7 @@ block content
           label(for='add-form-add-category')
             span.visually-hidden Добавить категорию
           button.category__button.button.button--category(type='submit') Добавить
+      +insertErrorMessageForComments(validationMessages)
 
       ul.category__list
         each category in categories
@@ -20,5 +21,3 @@ block content
                 span.visually-hidden Редактировать категорию
               button.category__button.button.button--category(type='submit') Сохранить
               button.category__button.button.button--category.delete__button(type='button' name="category" data=`/my/categories/${category.id}`) Удалить
-
-      +insertErrorMessageForComments(validationMessages)

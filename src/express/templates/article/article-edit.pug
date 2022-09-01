@@ -41,7 +41,7 @@ block content
 
                   .new-publication__category-wrapper
                     each category in categories
-                        input#checkbox-auto(type='checkbox' name='categories' value=category.id checked=currentCategories.includes(category.id))
+                        input#checkbox-auto(type='checkbox' name='categories' value=category.id checked=currentCategories.includes(String(category.id)))
                         label(for='checkbox-auto' value=category.id) #{category.name}
                     a.new-publication__form-link.button.button--transparent(href='/my/categories') Добавить категорию
                     if validationObject

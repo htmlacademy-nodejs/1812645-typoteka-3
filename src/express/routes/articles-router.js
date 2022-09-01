@@ -57,7 +57,7 @@ articlesRouter.post(`/add`, auth, upload.single(`avatar`), csrfProtection, async
   }
 });
 
-// редактирование публикации
+// страница редактирования публикации
 articlesRouter.get(`/edit/:id`, auth, csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
@@ -110,7 +110,7 @@ articlesRouter.post(`/edit/:id`, auth, upload.single(`avatar`), csrfProtection, 
 });
 
 // страница публикации
-articlesRouter.get(`/:id`, auth, csrfProtection, async (req, res) => {
+articlesRouter.get(`/:id`, csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
 
