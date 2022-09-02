@@ -6,7 +6,14 @@ const api = require(`../api`).getAPI();
 
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
-const {ensureArray, prepareErrors, prepareErrorsToArray} = require(`../../utils/utils`);
+
+const {
+  ensureArray,
+  prepareErrors,
+  prepareErrorsToArray,
+  movingFile,
+} = require(`../../utils/utils`);
+
 const {
   ARTICLES_BY_CATEGORY_PER_PAGE,
 } = require(`../../constants`);
@@ -45,6 +52,7 @@ articlesRouter.post(`/add`, auth, upload.single(`avatar`), csrfProtection, async
 
   try {
     await api.createArticle(articleData);
+    await movingFile(articleData.picture);
 
     res.redirect(`/my`);
   } catch (errors) {
@@ -97,6 +105,7 @@ articlesRouter.post(`/edit/:id`, auth, upload.single(`avatar`), csrfProtection, 
 
   try {
     await api.editArticles({id, data: articleData});
+    await movingFile(articleData.picture);
 
     res.redirect(`/my`);
   } catch (errors) {
