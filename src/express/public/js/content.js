@@ -1,11 +1,6 @@
 'use strict';
 
 (() => {
-  const Type = {
-    SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR'
-  };
-
   const Message = {
     '200': 'Операция успешно выполнена',
     '403': 'У вас нет доступа к этой операции',
@@ -52,7 +47,6 @@
   };
 
   const deleteArticleElements = document.querySelectorAll(`.delete__button`);
-  // const deleteCategoryElements = document.querySelectorAll(`.category__button`);
 
   const deleteObjectElements = [...deleteArticleElements];
 
