@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+const auth = require(`../middlewares/auth`);
 
 const auth = require(`../middlewares/auth`);
 const api = require(`../api`).getAPI();
