@@ -22,16 +22,20 @@ module.exports = (app, articleService, commentService) => {
   });
 
   router.get(`/`, async (req, res) => {
-    const {offset, limit, withComments} = req.query;
-    let result;
+    const {userId, offset, limit, withComments} = req.query;
 
-    if (limit || offset) {
-      result = await articleService.findPage({limit, offset, withComments});
-    } else {
-      result = await articleService.findAll({withComments});
+    let articles = {};
+
+    if (userId) {
+      articles = await articleService.findAll({userId, withComments});
+      return res.status(HttpCode.OK).json(articles);
     }
 
-    res.status(HttpCode.OK).json(result);
+    if (limit || offset) {
+      articles = await articleService.findPage({limit, offset, withComments});
+    }
+
+    return res.status(HttpCode.OK).json(articles);
   });
 
   router.get(`/:articleId`, articleExists(articleService), async (req, res) => {
@@ -59,10 +63,21 @@ module.exports = (app, articleService, commentService) => {
     return res.status(HttpCode.OK).json(delArticle);
   });
 
+  // Публикации в категории
+  router.get(`/category/:categoryId`, async (req, res) => {
+    const {categoryId} = req.params;
+    const {offset, limit} = req.query;
+
+    const articles = await articleService.findPageArticlesByCategory({categoryId, offset, limit});
+
+    return res.status(HttpCode.OK).json(articles);
+  });
+
+  // Комментарии к публикации
   router.get(`/:articleId/comments`, [routeParamsValidator, articleExists(articleService)], async (req, res) => {
     const {articleId} = req.params;
 
-    const comments = await commentService.findAll(articleId);
+    const comments = await commentService.findAllForArticle(articleId);
 
     return res.status(HttpCode.OK).json(comments);
   });

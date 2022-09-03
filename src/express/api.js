@@ -31,8 +31,12 @@ class API {
     });
   }
 
-  async getArticles({offset, limit, withComments} = 0) {
-    return this._load(`/articles`, {params: {offset, limit, withComments}});
+  async getArticles({userId, offset, limit, withComments} = {}) {
+    return this._load(`/articles`, {params: {userId, offset, limit, withComments}});
+  }
+
+  async getArticlesByCategory({id, offset, limit}) {
+    return this._load(`/articles/category/${id}`, {params: {offset, limit}});
   }
 
   getArticle(id) {
@@ -46,11 +50,44 @@ class API {
     });
   }
 
+  deleteArticle({id, userId}) {
+    return this._load(`/articles/${id}`, {
+      method: HttpMethod.DELETE,
+      data: {userId}
+    });
+  }
+
+  // категории
   async getCategories(count) {
     return this._load(`/categories`, {params: {count}});
   }
 
+  async getCategory(id) {
+    return this._load(`/categories/${id}`);
+  }
 
+  createCategory(data) {
+    return this._load(`/categories`, {
+      method: HttpMethod.POST,
+      data
+    });
+  }
+
+  async editCategory(id, data) {
+    return this._load(`/categories/${id}`, {
+      method: HttpMethod.PUT,
+      data
+    });
+  }
+
+  deleteCategory({id, userId}) {
+    return this._load(`/categories/${id}`, {
+      method: HttpMethod.DELETE,
+      data: {userId}
+    });
+  }
+
+  // комментарии
   createComment({id, data}) {
     return this._load(`/articles/${id}/comments`, {
       method: HttpMethod.POST,
@@ -58,6 +95,17 @@ class API {
     });
   }
 
+  getComments() {
+    return this._load(`/comments`);
+  }
+
+  deleteComments(articleId, commentId) {
+    return this._load(`/articles/${articleId}/comments/${commentId}`, {
+      method: HttpMethod.DELETE,
+    });
+  }
+
+  // user
   createUser({data}) {
     return this._load(`/user`, {
       method: HttpMethod.POST,

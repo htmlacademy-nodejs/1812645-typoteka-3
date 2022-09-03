@@ -50,7 +50,7 @@ const getPictureFileName = (number) => `item${number.toString().padStart(2, 0)}.
 
 const getRandomSubarray = (items) => {
   items = items.slice();
-  let count = getRandomInt(1, items.length - 1);
+  let count = getRandomInt(1, items.length - 4);
   const result = [];
   while (count--) {
     result.push(

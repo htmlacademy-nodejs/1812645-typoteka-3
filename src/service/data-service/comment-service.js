@@ -1,9 +1,12 @@
 'use strict';
 
+const Aliases = require(`../models/aliase`);
+
 class CommentService {
   constructor(sequelize) {
-    this._Article = sequelize.models.Article;
     this._Comment = sequelize.models.Comment;
+    this._Article = sequelize.models.Article;
+    this._User = sequelize.models.User;
   }
 
   async create(articleId, newComment) {
@@ -15,7 +18,35 @@ class CommentService {
     });
   }
 
-  async findAll(articleId) {
+  async findAll() {
+    const include = [
+      {
+        model: this._User,
+        as: Aliases.USERS,
+        attributes: {
+          exclude: [`passwordHash`, `roleId`, `createdAt`, `updatedAt`]
+        }
+      }
+    ];
+
+    include.push({
+      model: this._Article,
+      attributes: [
+        `title`
+      ],
+    });
+
+    let comments = await this._Comment.findAll({
+      include,
+      order: [
+        [`data`, `DESC`]
+      ]
+    });
+
+    return comments.map((item) => item.get());
+  }
+
+  async findAllForArticle(articleId) {
     return await this._Comment.findAll({
       where: {articleId},
       raw: true

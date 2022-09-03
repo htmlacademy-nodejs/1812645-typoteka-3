@@ -13,8 +13,8 @@ const SequelizeStore = require(`connect-session-sequelize`)(session.Store);
 
 const {
   PUBLIC_DIR,
-  UPLOAD_DIR,
   PORT_FOR_FRONT,
+  HttpCode,
 } = require(`../constants`);
 
 const {SESSION_SECRET} = process.env;
@@ -44,7 +44,6 @@ app.use(session({
 
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
-app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
 
 app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);
@@ -52,6 +51,12 @@ app.set(`view engine`, `pug`);
 app.use(`/`, mainRouter);
 app.use(`/my`, adminRoutes);
 app.use(`/articles`, articlesRoutes);
+
+app.use((req, res) => res.status(HttpCode.BAD_REQUEST).render(`errors/404`));
+
+app.use((err, _req, res, _next) => {
+  res.status(HttpCode.INTERNAL_SERVER_ERROR).render(`errors/500`);
+});
 
 app.listen(PORT_FOR_FRONT, () => {
   console.log(`Сервер запущен на ${PORT_FOR_FRONT} порту`);

@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable consistent-return */
 
 const sequelize = require(`../lib/sequelize`);
 const express = require(`express`);
@@ -21,7 +22,7 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-  logger.debug(`Request on route ${req.url}`);
+  logger.debug(`* Request on route:${req.url} *Request method:${req.method}`);
 
   res.on(`finish`, () => {
     logger.info(`Response status code: ${res.statusCode}`);

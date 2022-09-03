@@ -12,7 +12,7 @@ const {
 const uploadDirAbsolute = path.resolve(__dirname, UPLOAD_DIR);
 
 const storage = multer.diskStorage({
-  destination: uploadDirAbsolute,
+  destination: (req, file, cb) => cb(null, uploadDirAbsolute),
   filename: (req, file, cb) => {
     const uniqueName = nanoid(10);
     const extension = file.originalname.split(`.`).pop();
@@ -28,6 +28,8 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({storage, fileFilter});
+const upload = multer({storage, fileFilter, limits: {
+  fileSize: 5 * 1024 * 1024
+}});
 
 module.exports = upload;

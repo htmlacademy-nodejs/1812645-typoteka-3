@@ -1,8 +1,13 @@
 'use strict';
 
-const chalk = require(`chalk`);
+const path = require(`path`);
 const fs = require(`fs`).promises;
-const {ExitCode} = require(`../constants`);
+
+const chalk = require(`chalk`);
+
+const {
+  ExitCode,
+} = require(`../constants`);
 
 const getArrayOfArgv = (argv) => {
   let arr = [];
@@ -62,6 +67,37 @@ const writeFile = async (filePath, content) => {
   }
 };
 
+const copyFile = async (oldFilePath, newFilePath) => {
+  try {
+    await fs.copyFile(oldFilePath, newFilePath);
+    return ExitCode.success;
+  } catch (error) {
+    return error;
+  }
+};
+
+const deleteFile = async (fileName) => {
+  try {
+    await fs.unlink(fileName);
+    return ExitCode.success;
+  } catch (error) {
+    return error;
+  }
+};
+
+const movingFile = async (fileName) => {
+  if (!fileName) {
+    return;
+  }
+  const relativePath1 = path.join(`../express/upload/img`, fileName);
+  const relativePath2 = path.join(`../express/public/img`, fileName);
+
+  const pathFrom = path.resolve(__dirname, relativePath1);
+  const pathTo = path.resolve(__dirname, relativePath2);
+  await copyFile(pathFrom, pathTo);
+  await deleteFile(pathFrom);
+};
+
 const conversionToString = (arr) => {
   return JSON.stringify(arr);
 };
@@ -105,4 +141,7 @@ module.exports = {
   prepareErrorsToArray,
   prepareErrors,
   ensureArray,
+  copyFile,
+  deleteFile,
+  movingFile,
 };

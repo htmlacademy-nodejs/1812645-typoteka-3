@@ -4,7 +4,7 @@ header.header
     span.logo__name Типотека
 
   if user && user.roleId === 1
-    include header-main-admin
+    include header-main
   else if user && user.roleId === 2
     include header-user
   else

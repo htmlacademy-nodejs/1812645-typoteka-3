@@ -2,11 +2,21 @@
 
 const {Router} = require(`express`);
 const csrf = require(`csurf`);
+const api = require(`../api`).getAPI();
 
 const upload = require(`../middlewares/upload`);
 const auth = require(`../middlewares/auth`);
-const api = require(`../api`).getAPI();
-const {ensureArray, prepareErrors, prepareErrorsToArray} = require(`../../utils/utils`);
+
+const {
+  ensureArray,
+  prepareErrors,
+  prepareErrorsToArray,
+  movingFile,
+} = require(`../../utils/utils`);
+
+const {
+  ARTICLES_BY_CATEGORY_PER_PAGE,
+} = require(`../../constants`);
 
 const articlesRouter = new Router();
 
@@ -19,26 +29,30 @@ const getAddOfferData = () => {
 // страница создания новой публикации
 articlesRouter.get(`/add`, auth, csrfProtection, async (req, res) => {
   const categories = await getAddOfferData();
-  res.render(`article/article-add`, {categories, csrfToken: req.csrfToken()});
+  const current = undefined;
+
+  res.render(`article/article-add`, {categories, csrfToken: req.csrfToken(), current});
 });
 
 // запрос на создание новой публикации
-articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req, res) => {
+articlesRouter.post(`/add`, auth, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
   const {body, file} = req;
+  let currentCategories = ensureArray(body.categories);
 
   const articleData = {
     picture: file ? file.filename : null,
     title: body.title,
     announce: body.announce,
     fulltext: body.fulltext,
-    categories: ensureArray([1, 2]),
+    categories: currentCategories,
     createdAt: body.date ? body.date : new Date(Date.now()),
     userId: user.id,
   };
 
   try {
     await api.createArticle(articleData);
+    await movingFile(articleData.picture);
 
     res.redirect(`/my`);
   } catch (errors) {
@@ -47,54 +61,63 @@ articlesRouter.post(`/add`, upload.single(`avatar`), csrfProtection, async (req,
     const categories = await getAddOfferData();
 
     res.render(`article/article-add`, {
-      user, articleData,
-      validationMessages, validationObject, categories,
+      user, articleData, categories, currentCategories,
+      validationMessages, validationObject,
       csrfToken: req.csrfToken()
     });
   }
 });
 
-// редактирование публикации
+// страница редактирования публикации
 articlesRouter.get(`/edit/:id`, auth, csrfProtection, async (req, res) => {
+  const {user} = req.session;
   const {id} = req.params;
 
-  const [article, categories] = await Promise.all([
+  const [articleData, categories] = await Promise.all([
     api.getArticle(id),
     api.getCategories()
   ]);
 
-  res.render(`article/article-edit`, {id, article, categories, csrfToken: req.csrfToken()});
+  const currentCategories = articleData.categories.map((item) => item.id);
+
+  res.render(`article/article-edit`, {
+    id, user, articleData, categories, currentCategories,
+    csrfToken: req.csrfToken(),
+  });
 });
 
 // запрос на редактирование публикации
-articlesRouter.post(`/edit/:id`, upload.single(`avatar`), csrfProtection, async (req, res) => {
+articlesRouter.post(`/edit/:id`, auth, upload.single(`avatar`), csrfProtection, async (req, res) => {
   const {user} = req.session;
-  const {body, file} = req;
   const {id} = req.params;
+  const {body, file} = req;
+  const currentCategories = ensureArray(body.categories).map((item) => +item);
 
   const articleData = {
     picture: file ? file.filename : null,
     title: body.title,
     announce: body.announce,
     fulltext: body.fulltext,
-    categories: ensureArray([1, 2]),
+    categories: currentCategories,
     createdAt: body.date ? body.date : new Date(Date.now()),
     userId: user.id,
   };
 
   try {
     await api.editArticles({id, data: articleData});
+    await movingFile(articleData.picture);
 
     res.redirect(`/my`);
   } catch (errors) {
     const validationObject = prepareErrors(errors);
 
-    const [article, categories] = await Promise.all([
-      api.getArticle(id),
-      api.getCategories()
-    ]);
+    const categories = await api.getCategories();
 
-    res.render(`article/article-edit`, {user, id, article, categories, validationObject, csrfToken: req.csrfToken()});
+    res.render(`article/article-edit`, {
+      id, user, validationObject,
+      articleData, categories, currentCategories,
+      csrfToken: req.csrfToken(),
+    });
   }
 });
 
@@ -136,9 +159,21 @@ articlesRouter.get(`/category/:id`, async (req, res) => {
   const {user} = req.session;
   const {id} = req.params;
 
-  const categories = await api.getCategories(true);
+  const limit = ARTICLES_BY_CATEGORY_PER_PAGE;
+  let {page = 1} = req.query;
+  page = +page;
+  const offset = (page - 1) * ARTICLES_BY_CATEGORY_PER_PAGE;
 
-  res.render(`article-by-category`, {id, user, categories});
+  const {count, articles} = await api.getArticlesByCategory({id, offset, limit});
+  const categories = await api.getCategories(true);
+  const category = await api.getCategory(id);
+
+  const totalPages = Math.ceil(count / ARTICLES_BY_CATEGORY_PER_PAGE);
+
+  res.render(`article-by-category`, {
+    id, user, page, totalPages,
+    category, categories, articles
+  });
 });
 
 module.exports = articlesRouter;

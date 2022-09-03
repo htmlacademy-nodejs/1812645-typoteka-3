@@ -21,13 +21,13 @@ block content
             ul.post__themes.themes
               each category in article.categories
                 li.themes__item
-                  a.themes__item-link(href='#')
+                  a.themes__item-link(href=`/articles/category/${category.id}`)
                     | #{category.name}
-                    sup 88
                   button.themes__remove-btn(type='button') Удалить категорию
 
-          .post__picture
-            img(src='/img/sea-fullsize@1x.jpg' alt='пейзаж море, скалы, пляж')
+          if article.picture
+            .post__picture
+              img(src=`/img/${article.picture}` alt='пейзаж море, скалы, пляж')
 
           .post__text
             h3 #{article.announce}

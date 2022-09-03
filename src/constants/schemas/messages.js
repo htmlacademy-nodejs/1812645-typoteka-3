@@ -37,7 +37,10 @@ module.exports.ErrorArticleMessage = {
 
 module.exports.ErrorCategoriesMessage = {
   CATEGORIES_ERR: `Некорректный тип категории`,
+  NAME_MIN: `Название категории содержит меньше 5 символов`,
+  NAME_MAX: `Название категории не может содержать более 30 символов`,
   CATEGORIES_EMPTY: `Не выбрана ни одна категория для публикации`,
+  CATEGORIES_REQUIRED: `Отсутствует название категории`,
 };
 
 module.exports.ErrorCommentMessage = {
