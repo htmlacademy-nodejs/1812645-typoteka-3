@@ -10,7 +10,7 @@ module.exports = async (sequelize, {categories, articles, users, roles}) => {
   await Role.bulkCreate(roles.map((item) => ({role: item})));
 
   users.forEach((user, index) => {
-    index === 0 ? user.roleId = 1 : user.roleId = 2;
+    user.roleId = index === 1 ? user.roleId = 2 : user.roleId = 1;
   });
 
   const userModels = await User.bulkCreate(users, {include: [Aliases.ARTICLES, Aliases.COMMENTS]});

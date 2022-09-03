@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable consistent-return */
 
 const sequelize = require(`../lib/sequelize`);
 const express = require(`express`);
