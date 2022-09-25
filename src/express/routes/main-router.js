@@ -2,6 +2,8 @@
 
 const {Router} = require(`express`);
 
+let filename = null;
+
 const {
   ARTICLES_PER_PAGE,
   USER_ROLES,
@@ -10,8 +12,12 @@ const {
 } = require(`../../constants`);
 
 const upload = require(`../middlewares/upload`);
-const {prepareErrors} = require(`../../utils/utils`);
 const api = require(`../api`).getAPI();
+
+const {
+  prepareErrors,
+  movingFile,
+} = require(`../../utils/utils`);
 
 const mainRouter = new Router();
 
@@ -67,7 +73,7 @@ mainRouter.post(`/register`, upload.single(`avatar`), async (req, res) => {
   const {body, file} = req;
 
   const userData = {
-    avatar: file ? file.filename : null,
+    avatar: file ? file.filename : filename,
     firstName: body.name,
     lastName: body.surname,
     email: body.email,
@@ -78,9 +84,11 @@ mainRouter.post(`/register`, upload.single(`avatar`), async (req, res) => {
 
   try {
     await api.createUser({data: userData});
+    await movingFile(userData.avatar);
 
     res.redirect(`/login`);
   } catch (errors) {
+    filename = userData.avatar;
     const validationMessages = prepareErrors(errors);
 
     res.render(`sign-up`, {userData, validationMessages});
