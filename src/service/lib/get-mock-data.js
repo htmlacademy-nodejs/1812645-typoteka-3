@@ -14,7 +14,7 @@ const getMockData = async (filePath) => {
     console.log(chalk.green(`\t Read file ${filePath}`));
     data = content.trim().split(`\n`);
   } catch (error) {
-    // console.error(chalk.red(`\t ${error.message}`));
+    console.error(chalk.red(`\t ${error.message}`));
     return error;
   }
 

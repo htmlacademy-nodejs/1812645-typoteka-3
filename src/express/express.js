@@ -59,5 +59,5 @@ app.use((err, _req, res, _next) => {
 });
 
 app.listen(PORT_FOR_FRONT, () => {
-  console.log(`Сервер запущен на ${PORT_FOR_FRONT} порту`);
+  console.log(`*** Сайт доступен по адресу: http://localhost:${PORT_FOR_FRONT}/`);
 });

@@ -10,7 +10,7 @@ ul.preview__list
         .preview__background
           img.preview__background-image(src=`/img/${article.picture}` width='460' height='240' alt='Фотография небоскреба')
 
-      time.preview__time(datetime='2019-03-21T20:33') 21.03.2019, 20:33
+      time.preview__time(datetime='2019-03-21T20:33') #{formatDate(article.createdAt)}
 
       h3.preview__name
         a.preview__name-link(href=`/articles/${article.id}`) #{article.title}

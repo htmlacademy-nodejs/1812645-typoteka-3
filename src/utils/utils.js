@@ -76,11 +76,12 @@ const copyFile = async (oldFilePath, newFilePath) => {
   }
 };
 
-const deleteFile = async (fileName) => {
+const deleteFile = async (filePath) => {
   try {
-    await fs.unlink(fileName);
+    await fs.unlink(filePath);
     return ExitCode.success;
   } catch (error) {
+    console.log(`**********` + error.message);
     return error;
   }
 };

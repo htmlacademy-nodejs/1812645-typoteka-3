@@ -1,6 +1,12 @@
 extends layout.pug
 
 block content
+  -
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      return date.toLocaleString();
+    }
+
   main.main-page
     h1.visually-hidden Главная страница личного блога Типотека
     p
