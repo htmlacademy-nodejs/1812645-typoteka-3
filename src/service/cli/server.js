@@ -1,9 +1,7 @@
 'use strict';
-/* eslint-disable consistent-return */
 
 const sequelize = require(`../lib/sequelize`);
 const express = require(`express`);
-const chalk = require(`chalk`);
 const routes = require(`../api`);
 const {getLogger} = require(`../lib/logger`);
 
@@ -56,15 +54,16 @@ module.exports = {
 
     const port = Number.parseInt(portNumber, 10) || DEFAULT_PORT;
 
-    app.listen(port, (err) => {
-      if (err) {
-        logger.error(`Error when creating the server: ${err.message}`);
-        return ExitCode.error;
-      }
-
-      logger.info(chalk.green(`Waiting for connections on ${port} port`));
+    return new Promise((resolve) => {
+      return app.listen(port)
+        .on(`listening`, () => {
+          logger.info(`Waiting for connections on ${port} port`);
+          resolve(ExitCode.success);
+        })
+        .on(`error`, (err) => {
+          logger.error(`Error when creating the server: ${err.message}`);
+          resolve(ExitCode.error);
+        });
     });
-
-    return ExitCode.success;
   }
 };

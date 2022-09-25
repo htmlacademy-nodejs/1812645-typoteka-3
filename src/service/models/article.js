@@ -2,6 +2,8 @@
 
 const {DataTypes, Model} = require(`sequelize`);
 
+const {MAX_NUMBER_OF_COMMENTS} = require(`../../constants`);
+
 class Article extends Model {}
 
 const define = (sequelize) => Article.init({
@@ -15,7 +17,7 @@ const define = (sequelize) => Article.init({
   },
   fulltext: {
     // eslint-disable-next-line new-cap
-    type: DataTypes.STRING(1000),
+    type: DataTypes.STRING(MAX_NUMBER_OF_COMMENTS),
   },
   picture: {
     type: DataTypes.STRING,
